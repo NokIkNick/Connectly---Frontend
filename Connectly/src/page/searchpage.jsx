@@ -2,9 +2,41 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 export const Searchsite = ({ items }) => {
+
+    // Stand-in data. Replace with actual data.
+    const samplePeople = [
+        {
+            firstname: "John",
+            lastname: "Doe",
+            email: "john.doe@example.com"
+        },
+        {
+            firstname: "Jane",
+            lastname: "Smith",
+            email: "jane.smith@example.com"
+        },
+        {
+            firstname: "Alice",
+            lastname: "Johnson",
+            email: "alice.johnson@example.com"
+        },
+        {
+            firstname: "Bob",
+            lastname: "Brown",
+            email: "bob.brown@example.com"
+        },
+        {
+            firstname: "Charlie",
+            lastname: "Davis",
+            email: "charlie.davis@example.com"
+        }
+    ];    items = samplePeople; 
+    //uncomment the line above to see the sample data
+
+
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [selectedProfile, setSelectedProfile] = useState(null);
-    const [activeButton, setActiveButton] = useState(null);
+    const [activeButton, setActiveButton] = useState([]);
 
     const Standinnavbar = styled.div`
         background-color: var(--blue);
@@ -37,7 +69,7 @@ export const Searchsite = ({ items }) => {
     height: 80vh;
     overflow-y: auto;
     scrollbar-width: none;
-        @media (max-width: 768px) {
+        @media (max-width: 1000px) {
             display: none;
         }
     `;
@@ -56,7 +88,7 @@ export const Searchsite = ({ items }) => {
     `;
 
     const Ads = styled(Column)`
-        height: 80vh;
+        flex: 0.5;
         @media (max-width: 768px) {
             flex: 1;
         }
@@ -102,6 +134,8 @@ export const Searchsite = ({ items }) => {
     `;
 
     const Avatar = styled.img`
+        display: block;
+        margin: 0 auto;
         width: 100px;
         height: 100px;
         border-radius: 100%;
@@ -114,7 +148,6 @@ export const Searchsite = ({ items }) => {
         width: 100%;
         height: 50px;
         margin: 0 auto;
-        font-family: 'StabilGrotesk-regular';
         background-color: var(--blue);
         color: white;
         border-radius: 10px;
@@ -216,38 +249,13 @@ export const Searchsite = ({ items }) => {
     };
 
     const handleButtonClick = (buttonType) => {
-        setActiveButton(buttonType);
+        setActiveButton((prevActiveButtons) =>
+            prevActiveButtons.includes(buttonType)
+                ? prevActiveButtons.filter((type) => type !== buttonType)
+                : [...prevActiveButtons, buttonType]
+        );
     };
 
-
-    // Stand-in data. Replace with actual data.
-    const samplePeople = [
-        {
-            firstname: "John",
-            lastname: "Doe",
-            email: "john.doe@example.com"
-        },
-        {
-            firstname: "Jane",
-            lastname: "Smith",
-            email: "jane.smith@example.com"
-        },
-        {
-            firstname: "Alice",
-            lastname: "Johnson",
-            email: "alice.johnson@example.com"
-        },
-        {
-            firstname: "Bob",
-            lastname: "Brown",
-            email: "bob.brown@example.com"
-        },
-        {
-            firstname: "Charlie",
-            lastname: "Davis",
-            email: "charlie.davis@example.com"
-        }
-    ];    //items = samplePeople; uncomment this line to see the sample data
 
     return (
         <>
@@ -256,6 +264,7 @@ export const Searchsite = ({ items }) => {
             </Standinnavbar>
 
             <Container>
+                
                 <FeedAndCategories>
                     <h2>FEED </h2>
                     <FACButton>Family</FACButton>
@@ -275,6 +284,7 @@ export const Searchsite = ({ items }) => {
                 </FeedAndCategories>
 
                 <SearchResults>
+                <h2>Search Results for: </h2>
                     {items &&
                         items.map((item) => (
                             <Profiles key={item.email}>
@@ -317,19 +327,19 @@ export const Searchsite = ({ items }) => {
                         <h2>Choose one or more</h2>
                         <FriendButton
                             onClick={() => handleButtonClick("friend")}
-                            active={activeButton === "friend"}
+                            active={activeButton.includes("friend")}
                         >
                             Friend
                         </FriendButton>
                         <FamilyButton
                             onClick={() => handleButtonClick("family")}
-                            active={activeButton === "family"}
+                            active={activeButton.includes("family")}
                         >
                             Family
                         </FamilyButton>
                         <BusinessButton
                             onClick={() => handleButtonClick("business")}
-                            active={activeButton === "business"}
+                            active={activeButton.includes("business")}
                         >
                             Business
                         </BusinessButton>
