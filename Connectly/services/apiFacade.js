@@ -122,3 +122,33 @@ export const searchProfiles = async (query, retries = 3) => {
     }
 };
 
+
+//ask for connnection 
+//Not finished and needs a revision.
+
+/* export const askForConnection = async (id, retries = 3) => {
+    const url = `${BASE_URL}/private/askForConnection/${id}`;
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetchWithTimeout(url, options);
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            return true;
+        } catch (error) {
+            if (i === retries - 1) {
+                throw new Error(`Failed to ask for connection: ${error.message}`);
+            }
+        }
+    }
+} */
+
