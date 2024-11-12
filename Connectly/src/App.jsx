@@ -1,11 +1,17 @@
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import React from 'react'
+import { Searchsite } from './page/searchpage'
 
 function App() {
 
   return (
     <>
-      <h1>Connectly</h1>
-        
+      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/search" element={<Searchsite/>} />
+        </Routes> 
+      </BrowserRouter>
 
     </>
   )
