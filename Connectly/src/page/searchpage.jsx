@@ -57,10 +57,11 @@ export const Searchsite = ({ items }) => {
         flex-wrap: wrap;
     `;
 
+    //out-comment border below to better see layout.
     const Column = styled.div`
         flex: 1;
         padding: 20px;
-        border: 1px solid black;
+        //border: 1px solid black;
         margin: 0 5px;
     `;
 
