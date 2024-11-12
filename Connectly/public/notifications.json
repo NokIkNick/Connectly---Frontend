@@ -1,0 +1,10 @@
+[
+  { "id": 1, "user_id": 1, "message": "user id 1 besked 1" },
+  { "id": 2, "user_id": 1, "message": "user id 1 besked 2" },
+  { "id": 3, "user_id": 2, "message": "user id 2 besked 1" },
+  { "id": 4, "user_id": 2, "message": "user id 2 besked 2" },
+  { "id": 5, "user_id": 3, "message": "user id 3 besked 1" },
+  { "id": 6, "user_id": 3, "message": "user id 3 besked 2" },
+  { "id": 7, "user_id": 4, "message": "user id 4 besked 1" },
+  { "id": 8, "user_id": 4, "message": "user id 4 besked 2" }
+]
