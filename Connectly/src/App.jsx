@@ -3,7 +3,6 @@ import React from 'react'
 import { Searchsite } from './page/searchpage'
 
 function App() {
-
   return (
     <>
       
@@ -17,4 +16,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
