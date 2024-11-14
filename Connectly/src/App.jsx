@@ -1,18 +1,19 @@
-import './App.css';
-import Post from "./components/Post.jsx";
-import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import React from 'react'
+import { Searchsite } from './page/searchpage'
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [loggedInUserData, setLoggedInUserData] = useState(null);
-  const [feedId, setFeedId] = useState(null);
-  const [currentTopicId, setCurrentTopicId] = useState(null);
-
   return (
-      <>
-        
-      </>
-  );
+    <>
+      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/search" element={<Searchsite/>} />
+        </Routes> 
+      </BrowserRouter>
+
+    </>
+  )
 }
 
 export default App;
