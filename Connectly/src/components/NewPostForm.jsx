@@ -1,5 +1,7 @@
 import React from "react";
 
+
+
 export default function NewPostForm({ newPostContent, setNewPostContent, handleNewPostSubmit }) {
     return (
         <div>
@@ -8,12 +10,23 @@ export default function NewPostForm({ newPostContent, setNewPostContent, handleN
                 e.preventDefault();
                 handleNewPostSubmit(e);
             }}>
-                <p
+                <textarea
                     value={newPostContent}
                     onChange={(e) => setNewPostContent(e.target.value)}
                     placeholder="Post content"
                 />
-                <button type="submit">Submit Post</button>
+
+
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+
+                    <select className="dropdown" defaultValue="">
+                        <option value="friends">Friends</option>
+                        <option value="family">Family</option>
+                        <option value="work">Hobby</option>
+                    </select>
+
+                    <button type="submit">Submit Post</button>
+                </div>
             </form>
         </div>
     );
