@@ -1,42 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-export const Searchsite = ({ items }) => {
-
-    // Stand-in data. Replace with actual data.
-    const samplePeople = [
-        {
-            firstname: "John",
-            lastname: "Doe",
-            email: "john.doe@example.com"
-        },
-        {
-            firstname: "Jane",
-            lastname: "Smith",
-            email: "jane.smith@example.com"
-        },
-        {
-            firstname: "Alice",
-            lastname: "Johnson",
-            email: "alice.johnson@example.com"
-        },
-        {
-            firstname: "Bob",
-            lastname: "Brown",
-            email: "bob.brown@example.com"
-        },
-        {
-            firstname: "Charlie",
-            lastname: "Davis",
-            email: "charlie.davis@example.com"
-        }
-    ];    items = samplePeople; 
-    //uncomment the line above to see the sample data
-
-
+// Stand-in data. Replace with actual data.
+const samplePeople = [
+    {
+        firstname: "John",
+        lastname: "Doe",
+        email: "john.doe@example.com"
+    },
+    {
+        firstname: "Jane",
+        lastname: "Smith",
+        email: "jane.smith@example.com"
+    },
+    {
+        firstname: "Alice",
+        lastname: "Johnson",
+        email: "alice.johnson@example.com"
+    },
+    {
+        firstname: "Bob",
+        lastname: "Brown",
+        email: "bob.brown@example.com"
+    },
+    {
+        firstname: "Charlie",
+        lastname: "Davis",
+        email: "charlie.davis@example.com"
+    }
+];  
+//uncomment the line above to see the sample data
+export const Searchsite = () => {
+    const [people, setPeople] = useState([]);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [selectedProfile, setSelectedProfile] = useState(null);
     const [activeButton, setActiveButton] = useState([]);
+
+    useEffect(() => {
+        setPeople(samplePeople);
+    }, []);
+
+    const handleConnectClick = (profile) => {
+        setSelectedProfile(profile);
+        setIsPopupVisible(true);
+    };
+
+    const handleClosePopup = () => {
+        setIsPopupVisible(false);
+        setSelectedProfile(null);
+    };
+
+    const handleButtonClick = (buttonType, event) => {
+        event.preventDefault();
+        setActiveButton((prevActiveButtons) =>
+            prevActiveButtons.includes(buttonType)
+                ? prevActiveButtons.filter((type) => type !== buttonType)
+                : [...prevActiveButtons, buttonType]
+        );
+    };
 
     const Standinnavbar = styled.div`
         background-color: var(--blue);
@@ -97,6 +117,7 @@ export const Searchsite = ({ items }) => {
 
     const FACButton = styled.button`
         margin: 20px 0;
+        background-color: var(--offwhite);
         display: block;
         width: 100%;
         border: 2px var(--blue) solid;
@@ -109,6 +130,7 @@ export const Searchsite = ({ items }) => {
     const CButton = styled.button`
         margin: 20px 0;
         display: block;
+        background-color: var(--offwhite);
         width: 100%;
         border: 2px var(--blue) solid;
         color: var(--blue);
@@ -239,24 +261,6 @@ export const Searchsite = ({ items }) => {
 
     const AddConnectionButton = styled(FriendButton)``;
 
-    const handleConnectClick = (profile) => {
-        setSelectedProfile(profile);
-        setIsPopupVisible(true);
-    };
-
-    const handleClosePopup = () => {
-        setIsPopupVisible(false);
-        setSelectedProfile(null);
-    };
-
-    const handleButtonClick = (buttonType) => {
-        setActiveButton((prevActiveButtons) =>
-            prevActiveButtons.includes(buttonType)
-                ? prevActiveButtons.filter((type) => type !== buttonType)
-                : [...prevActiveButtons, buttonType]
-        );
-    };
-
 
     return (
         <>
@@ -286,8 +290,8 @@ export const Searchsite = ({ items }) => {
 
                 <SearchResults>
                 <h2>Search Results for: </h2>
-                    {items &&
-                        items.map((item) => (
+                    {people &&
+                        people.map((item) => (
                             <Profiles key={item.email}>
                                 {/* Stand-in. Replace with actual image */}
                                 <Avatar src="user-svgrepo-com.svg" alt="profile image" />
@@ -327,19 +331,19 @@ export const Searchsite = ({ items }) => {
                         )}
                         <h2>Choose one or more</h2>
                         <FriendButton
-                            onClick={() => handleButtonClick("friend")}
+                            onClick={(event) => handleButtonClick("friend", event)}
                             active={activeButton.includes("friend")}
                         >
                             Friend
                         </FriendButton>
                         <FamilyButton
-                            onClick={() => handleButtonClick("family")}
+                            onClick={(event) => handleButtonClick("family", event)}
                             active={activeButton.includes("family")}
                         >
                             Family
                         </FamilyButton>
                         <BusinessButton
-                            onClick={() => handleButtonClick("business")}
+                            onClick={(event) => handleButtonClick("business", event)}
                             active={activeButton.includes("business")}
                         >
                             Business
