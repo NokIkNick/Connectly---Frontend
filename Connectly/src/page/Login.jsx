@@ -97,8 +97,9 @@ const Login = () => {
       setError('Please fill in both fields.');
     } else {
       setError('');
-      console.log('Username:', username);
-      console.log('Password:', password);
+      //for debuging purposes
+      //console.log('Username:', username);
+      //console.log('Password:', password);
       // Perform login action, e.g., API call here
     }
   };
