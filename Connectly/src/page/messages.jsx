@@ -111,6 +111,10 @@ export const Messages = () => {
         &:hover {
             background-color: var(--blue-hover);
         }
+        outline: none;
+        &:focus {
+            outline: none;
+        }
     `;
 
     const SearchField = styled.input`
@@ -121,6 +125,41 @@ export const Messages = () => {
         margin-bottom: 20px;
     `;
 
+const ModalOverlay = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+background: white;
+padding: 20px;
+border-radius: 10px;
+width: 400px;
+max-width: 90%;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const CloseButton = styled.button`
+background: none;
+border: none;
+position: absolute;
+top: 10px;
+right: 10px;
+cursor: pointer;
+font-size: 20px;
+&:focus {
+    outline: none;
+}
+`;
+
     // standin data for messages
     const [pastMessagesProfiles, setPastMessagesProfiles] = useState([
         { id: 1, name: "Anders Jensen" },
@@ -130,6 +169,7 @@ export const Messages = () => {
     const [currentChat, setCurrentChat] = useState([]);
     const [selectedChatId, setSelectedChatId] = useState(null);
     const [input, setinput] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const handleMessageSelect = (chatId) => {
         setSelectedChatId(chatId);
         //logic to get messages. Currently example messages
@@ -168,6 +208,14 @@ export const Messages = () => {
         //logic to search through messages
     }
 
+    const openModal = () => {
+        setIsModalVisible(true);
+    }
+
+    const closeModal = () => {
+        setIsModalVisible(false);
+    }
+
     return (
         <>
             <Standinnavbar>
@@ -176,7 +224,7 @@ export const Messages = () => {
 
             <Container>
                 <Messages>
-                    <NewChatButton onClick={()=>dothis}>
+                    <NewChatButton onClick={openModal}>
                         <h3>New Chat</h3>
                     </NewChatButton>
                     <SearchField type="text" placeholder="Search for a chat..." onChange={()=>searchThroughMessages}/>
@@ -206,6 +254,32 @@ export const Messages = () => {
                     </MessagingBox>
                 </ChatContainer>
             </Container>
+
+            {isModalVisible && (
+                <ModalOverlay onClick={closeModal}>
+                    <ModalContent onClick={(e) => e.stopPropagation()}>
+                        <CloseButton onClick={closeModal}>X</CloseButton>
+                        <h3>Who would you like to start a new chat with?</h3>
+
+                        <SearchField type="text" placeholder="Search for a chat..." onChange={()=>searchThroughMessages}/>
+
+                        {/* Add your form or content for starting a new chat here dropdown or list - the ones you already have one with. For example Anders Jensen
+                            Should probably fetch people one has connections with here. But if chat allready exists, navigate to that chat.
+                        */}
+                        {pastMessagesProfiles.map((message) => (
+                        <MessagesBox key={message.id} onClick={() => handleMessageSelect(message.id)}>
+                            <MessageContent>
+                                <ProfilePicture src="user-svgrepo-com.svg" alt="profile image"/>
+                                <div>
+                                    {message.name} <br />
+                                </div>
+                            </MessageContent>
+                        </MessagesBox>
+                    ))}
+
+                    </ModalContent>
+                </ModalOverlay>
+            )}
         </>
     );
 }
