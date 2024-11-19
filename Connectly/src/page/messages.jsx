@@ -70,6 +70,9 @@ export const Messages = () => {
         background-color: var(--blue);
         color: white;
         cursor: pointer;
+        &:hover {
+            background-color: var(--blue-hover);
+        }
     `;
 
     const MessagesBox = styled.div`
@@ -108,6 +111,14 @@ export const Messages = () => {
         &:hover {
             background-color: var(--blue-hover);
         }
+    `;
+
+    const SearchField = styled.input`
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 20px;
     `;
 
     // standin data for messages
@@ -152,6 +163,11 @@ export const Messages = () => {
         }
     };
 
+    const searchThroughMessages = (event) => {
+
+        //logic to search through messages
+    }
+
     return (
         <>
             <Standinnavbar>
@@ -160,6 +176,7 @@ export const Messages = () => {
 
             <Container>
                 <Messages>
+                    <SearchField type="text" placeholder="Search for a chat..." onChange={()=>searchThroughMessages}/>
                     <NewChatButton onClick={()=>dothis}>
                         <h3>New Chat</h3>
                     </NewChatButton>
@@ -170,7 +187,7 @@ export const Messages = () => {
                                 <ProfilePicture src="user-svgrepo-com.svg" alt="profile image"/>
                                 <div>
                                     {message.name} <br />
-                                    <p style={{ fontSize: "small", color: "grey" }}>*Should maybe latest message?</p>
+                                    <p style={{ fontSize: "small", color: "grey" }}>*Should maybe be latest message?</p>
                                 </div>
                             </MessageContent>
                         </MessagesBox>
