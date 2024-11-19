@@ -176,10 +176,10 @@ export const Messages = () => {
 
             <Container>
                 <Messages>
-                    <SearchField type="text" placeholder="Search for a chat..." onChange={()=>searchThroughMessages}/>
                     <NewChatButton onClick={()=>dothis}>
                         <h3>New Chat</h3>
                     </NewChatButton>
+                    <SearchField type="text" placeholder="Search for a chat..." onChange={()=>searchThroughMessages}/>
                     {/* Itteriate through past messages... */}
                     {pastMessagesProfiles.map((message) => (
                         <MessagesBox key={message.id} onClick={() => handleMessageSelect(message.id)}>
