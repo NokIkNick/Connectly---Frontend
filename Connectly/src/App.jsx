@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import React from 'react'
 import { Searchsite } from './page/searchpage'
-import Login from './page/Login';
 import Register from './page/Register';
-import Home from './layout/Home';
+import  Home  from './layout/Home';
+import { Mainpage } from './page/mainpage';
 
 function App() {
   return (
@@ -11,9 +11,11 @@ function App() {
     
       <BrowserRouter>
         <Routes>
-          <Route path="/search" element={<Searchsite/>} />
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Mainpage />} />
+          <Route path="/search" element={<Searchsite/>} />
           <Route path="/signup" element={<Register />} />
+          
         </Routes> 
       </BrowserRouter>
 
