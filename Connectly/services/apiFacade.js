@@ -123,6 +123,34 @@ export const searchProfiles = async (query, retries = 3) => {
 };
 
 
+// send message
+export const sendMessage = async (message, retries = 3) => {
+    const url = `${BASE_URL}/private/sendMessage`;
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(message)
+    };
+
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetchWithTimeout(url, options);
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            return true;
+        } catch (error) {
+            if (i === retries - 1) {
+                throw new Error(`Failed to send message: ${error.message}`);
+            }
+        }
+    }
+};
+
 //ask for connnection 
 //Not finished and needs a revision.
 
