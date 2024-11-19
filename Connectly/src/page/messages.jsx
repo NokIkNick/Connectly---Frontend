@@ -44,8 +44,7 @@ export const Messages = () => {
 
     const Chat = styled.div`
         flex: 1;
-        border-top: 1px solid var(--grey);
-        //padding: 20px;
+        padding: 20px;
         overflow-y: auto;
     `;
 
@@ -57,6 +56,7 @@ export const Messages = () => {
 
     const ChatInput = styled.input`
         flex: 1;
+        outline: none;
         padding: 20px;
         border: none;
         border-radius: 5px;
@@ -73,11 +73,14 @@ export const Messages = () => {
     `;
 
     const MessagesBox = styled.div`
-        max-height: 120px;
+        max-height: 80px;
         padding: 20px;
         border-bottom: 1px solid var(--grey);
         color: black;
         cursor: pointer;
+        &:hover {
+            background-color: var(--light-grey);
+        }
     `;
 
     const ProfilePicture = styled.img`
@@ -92,6 +95,21 @@ export const Messages = () => {
         align-items: center;
         gap: 10px;
     `;
+
+    const NewChatButton = styled.button`
+        padding: 20px;
+        border: none;
+        background-color: var(--blue);
+        color: white;
+        cursor: pointer;
+        width: 40%;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        &:hover {
+            background-color: var(--blue-hover);
+        }
+    `;
+
     // standin data for messages
     const [pastMessagesProfiles, setPastMessagesProfiles] = useState([
         { id: 1, name: "Anders Jensen" },
@@ -127,6 +145,13 @@ export const Messages = () => {
         }); */
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            handleSend();
+        }
+    };
+
     return (
         <>
             <Standinnavbar>
@@ -135,6 +160,9 @@ export const Messages = () => {
 
             <Container>
                 <Messages>
+                    <NewChatButton onClick={()=>dothis}>
+                        <h3>New Chat</h3>
+                    </NewChatButton>
                     {/* Itteriate through past messages... */}
                     {pastMessagesProfiles.map((message) => (
                         <MessagesBox key={message.id} onClick={() => handleMessageSelect(message.id)}>
@@ -156,7 +184,7 @@ export const Messages = () => {
                         ))}
                     </Chat>
                     <MessagingBox>
-                        <ChatInput type="text" placeholder="Type a message..." onChange={()=>chatInput}/>
+                        <ChatInput type="text" placeholder="Type a message..." onChange={()=>chatInput} onKeyDown={handleKeyDown}/>
                         <SendBotton onClick={handleSend}>Send</SendBotton>
                     </MessagingBox>
                 </ChatContainer>

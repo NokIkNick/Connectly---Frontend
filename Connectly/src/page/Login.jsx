@@ -48,7 +48,7 @@ const Btn = styled.button`
   margin: 0 auto; /* Center the button */
   display: block;
   &:hover {
-    background-color: #0056b3;
+    background-color: var(--blue-hover);
   }
 `;
 
