@@ -4,6 +4,7 @@ import { Searchsite } from './page/searchpage'
 import Register from './page/Register';
 import  Home  from './layout/Home';
 import { Mainpage } from './page/mainpage';
+import { Messages } from './page/messages';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route path="/home" element={<Mainpage />} />
           <Route path="/search" element={<Searchsite/>} />
           <Route path="/signup" element={<Register />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="*" element={<h1>Not Found</h1>} />
           
         </Routes> 
       </BrowserRouter>
