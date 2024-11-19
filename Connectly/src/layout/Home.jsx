@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Login from '../auth/login'; // Import the Login component
+import Login from '../page/Login'; // Import the Login component
 
 // Styled components
 const Container = styled.div`

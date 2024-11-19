@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 // Styled components
@@ -14,12 +14,11 @@ const RegisterForm = styled.form`
 
 const Div = styled.div`
   width: 500px;
-  min-height: 570px;
-  margin: 100px auto;
+  margin: 150px auto;
 `;
 
 const Button = styled.button`
-  background-color: #007BFF;
+  background-color: var(--blue);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -34,7 +33,7 @@ const Button = styled.button`
 `;
 
 const Label = styled.label`
-  color: rgb(77, 75, 75);
+  color: var(--grey); 
   text-transform: uppercase;
   letter-spacing: 2px;
   display: block;
