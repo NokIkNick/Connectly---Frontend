@@ -93,7 +93,7 @@ export const Mainpage = () => {
         margin: 20px 0;
     `;
 
-
+        // default FACButton should be 'active' when page is loaded and loaded with that 'feed'
     return (
         <>
             <Standinnavbar>
@@ -105,6 +105,7 @@ export const Mainpage = () => {
                     <FACButton>Family</FACButton>
                     <FACButton>Friends</FACButton>
                     <FACButton>Work</FACButton>
+                    <FACButton>'Default'</FACButton>
 
                     <h2>CATEGORIES</h2>
                     <CButton>Category 1</CButton>
