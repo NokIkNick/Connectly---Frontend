@@ -8,6 +8,7 @@ const GlobalStyles = createGlobalStyle`
         --blue: #2271D2;
         /*Accent Background*/
         --dark-blue: #1E453C;
+        --blue-hover: #0056b3;
 
         /*Whites*/
         /*Text*/
