@@ -1,0 +1,82 @@
+[
+  {
+    "id": 19,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 21,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 23,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 25,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 27,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 29,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 30,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 31,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 32,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  },
+  {
+    "id": 33,
+    "author": "user2@example.com",
+    "date_created": 1732181202564,
+    "title": "The Science Behind Climate Change",
+    "content": "Content about science...",
+    "visibility": "FRIEND"
+  }
+]

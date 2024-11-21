@@ -36,7 +36,7 @@ export default function Post({posts, setPosts, feedId,setTopicId ,loggedInUser})
     return(<div>
 
         {posts && posts.map((post) =>(<PostItem
-            key= {post.id}
+            key= {post.postId}
             post ={post}
             loggedInUserData={loggedInUserData}
             feedId ={post.feedId}
