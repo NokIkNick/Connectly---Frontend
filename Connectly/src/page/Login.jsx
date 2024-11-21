@@ -38,7 +38,7 @@ const Error = styled.p`
 `;
 
 const Btn = styled.button`
-  background-color: #007BFF;
+  background-color: var(--blue);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -62,7 +62,7 @@ const SignUpContainer = styled.div`
 
 const SignUpText = styled.p`
   margin-right: 10px;
-  color: gray;
+  color: var(--grey);
   font-size: 14px;
 `;
 

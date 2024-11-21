@@ -31,6 +31,13 @@ const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
     }
 
+    button{
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+
+
     body{
         background-color: var(--offwhite);
         font-family: 'StabilGrotesk-regular', sans-serif;

@@ -53,7 +53,6 @@ const Home = () => {
         <h1>Welcome to Connectly!</h1>
         <p>{displayedText}</p>
       </WelcomeSection>
-
       <LoginSection>
         <Login />
       </LoginSection>
