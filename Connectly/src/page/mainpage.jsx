@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Modal from "../components/Modal";
+import NewPostForm from "../components/NewPostForm";
 
 export const Mainpage = () => {
-    
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+
+
     const Standinnavbar = styled.div`
         background-color: var(--blue);
         color: black;
@@ -55,33 +68,26 @@ export const Mainpage = () => {
 
     const Ads = styled(Column)`
         flex: 0.5;
-        @media (max-width: 768px) {
-            flex: 1;
+        @media (max-width: 520px) {
+            display: none;
         }
     `;
 
     const FACButton = styled.button`
+        font-weight: bold;
         margin: 20px 0;
-        background-color: var(--offwhite);
+        background-color: var(--background);
         display: block;
         width: 100%;
         border: 2px var(--blue) solid;
-        color: var(--blue);
+        color: var(--);
+        font-size: 1.4rem;
         border-radius: 10px;
         padding: 20px 20px;
         cursor: pointer;
-    `;
-
-    const CButton = styled.button`
-        margin: 20px 0;
-        display: block;
-        background-color: var(--offwhite);
-        width: 100%;
-        border: 2px var(--blue) solid;
-        color: var(--blue);
-        border-radius: 10px;
-        padding: 20px 20px;
-        cursor: pointer;
+        &:hover {
+            background-color: var(--blue);
+        }
     `;
 
     const AD = styled.div`
@@ -93,7 +99,45 @@ export const Mainpage = () => {
         margin: 20px 0;
     `;
 
-        // default FACButton should be 'active' when page is loaded and loaded with that 'feed'
+    const InputBox = styled.div`
+        display: flex;
+        flex-direction: row; /* Changed from column to row */
+        align-items: center; /* Align items vertically in the center */
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 10px; /* Added padding for better spacing */
+    `;
+
+    const ProfilePicture = styled.div`
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 20px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    `;
+
+    const TextArea = styled.input `
+        width: 100%;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        background-color: var(--background);
+        border: none;
+    `;
+
+    
+
+
+    //comments from anders
+    // default FACButton should be 'active' when page is loaded and loaded with that 'feed'
+    const userName = "John Doe"; // Replace with dynamic user name if available
+
     return (
         <>
             <Standinnavbar>
@@ -101,20 +145,29 @@ export const Mainpage = () => {
             </Standinnavbar>
             <Container>
                 <FeedAndCategories>
-                    <h2>FEED </h2>
+                    <h2>Refine feed </h2>
                     <FACButton>Family</FACButton>
                     <FACButton>Friends</FACButton>
                     <FACButton>Work</FACButton>
                     <FACButton>'Default'</FACButton>
 
                     <h2>CATEGORIES</h2>
-                    <CButton>Category 1</CButton>
-                    <CButton>Category 2</CButton>
-                    <CButton>Category 3</CButton>
+                    <FACButton>Category 1</FACButton>
+                    <FACButton>Category 2</FACButton>
+                    <FACButton>Category 3</FACButton>
                 </FeedAndCategories>
 
                 <Feed>
-                    <h2>Search results</h2>
+                    <InputBox>
+                        <ProfilePicture><img src="/user-svgrepo-com.svg" alt="" /> </ProfilePicture>
+                        <TextArea
+                            type="text"
+                            placeholder={`What's on your mind, ${userName}?`}
+                            onFocus={handleOpenModal}
+                        />
+                    </InputBox>
+
+                    <h2>Feed here </h2>
                 </Feed>
 
                 <Ads>
@@ -126,6 +179,10 @@ export const Mainpage = () => {
                     </AD>
                 </Ads>
             </Container>
+
+            <Modal show={showModal} onClose={handleCloseModal}>
+                <NewPostForm />
+            </Modal>
         </>
     );
 };

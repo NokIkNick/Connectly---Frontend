@@ -313,7 +313,7 @@ export const Searchsite = () => {
                 </Ads>
             </Container>
 
-            {isPopupVisible && (
+                {isPopupVisible && (
                 <>
                     <Overlay onClick={handleClosePopup} />
                     <Popup>

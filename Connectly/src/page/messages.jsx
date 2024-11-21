@@ -78,7 +78,7 @@ export const Messages = () => {
     const MessagesBox = styled.div`
         max-height: 80px;
         padding: 20px;
-        border-bottom: 1px solid var(--grey);
+        border-radius: 10px;
         color: black;
         cursor: pointer;
         &:hover {
@@ -122,14 +122,12 @@ export const Messages = () => {
     `;
 
     // standin data for messages
-    const [pastMessagesProfiles, setPastMessagesProfiles] = useState([
-        { id: 1, name: "Anders Jensen" },
-        { id: 2, name: "Joackim Olsen" },
-        { id: 3, name: "Noah Aalgaard" }
-    ]);
+    const [pastMessagesProfiles, setPastMessagesProfiles] = useState([]);
     const [currentChat, setCurrentChat] = useState([]);
     const [selectedChatId, setSelectedChatId] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
     const [input, setinput] = useState("");
+    
     const handleMessageSelect = (chatId) => {
         setSelectedChatId(chatId);
         //logic to get messages. Currently example messages
@@ -139,17 +137,17 @@ export const Messages = () => {
             { id: 3, text: "Current chat message 3" }
         ]);
         //logic to select message
-    }
+    };
 
     const chatInput = (event) => {
         setinput(event.target.value);
-    }
+    };
 
     //logic to send message
     const handleSend = () => {
-        setCurrentChat([...currentChat, { id: currentChat.length + 1, text: input }]);
+        /*setCurrentChat([...currentChat, { id: currentChat.length + 1, text: input }]);
         console.log(input);
-        /*sendMessage({ text: input }).then(() => {
+        sendMessage({ text: input }).then(() => {
             console.log("Message sent");
         }).catch((error) => {
             console.error(error);
@@ -163,10 +161,23 @@ export const Messages = () => {
         }
     };
 
-    const searchThroughMessages = (event) => {
-
+    useEffect(() => {
+        const query = searchQuery;
+        const filteredMessages = pastMessagesProfiles.filter(profile =>
+            profile.name.toLowerCase().includes(query)
+        );
+        setPastMessagesProfiles(filteredMessages);
         //logic to search through messages
-    }
+    }, [searchQuery]);
+
+    useEffect(() => {
+        //logic to get messages. Currently example messages
+        setPastMessagesProfiles([
+            { id: 1, name: "Anders Jensen" },
+            { id: 2, name: "Hans bogaard" },
+            { id: 3, name: "Casper Knudsen" }
+        ]);
+    }, []);
 
     return (
         <>
@@ -179,7 +190,9 @@ export const Messages = () => {
                     <NewChatButton onClick={()=>dothis}>
                         <h3>New Chat</h3>
                     </NewChatButton>
-                    <SearchField type="text" placeholder="Search for a chat..." onChange={()=>searchThroughMessages}/>
+                    <label>
+                    <SearchField type="search" id="name-search" placeholder="Search for a chat..." onChange={setSearchQuery}/>
+                    </label>
                     {/* Itteriate through past messages... */}
                     {pastMessagesProfiles.map((message) => (
                         <MessagesBox key={message.id} onClick={() => handleMessageSelect(message.id)}>
@@ -190,8 +203,10 @@ export const Messages = () => {
                                     <p style={{ fontSize: "small", color: "grey" }}>*Should maybe be latest message?</p>
                                 </div>
                             </MessageContent>
+                            
                         </MessagesBox>
                     ))}
+                    
                 </Messages>
                 <ChatContainer>
                     <Chat>

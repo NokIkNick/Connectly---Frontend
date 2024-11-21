@@ -24,14 +24,7 @@ export default function Post({posts, setPosts, feedId,setTopicId ,loggedInUser})
         navigate(`/user/${username}`)
     }*/
 
-    const handleNewPostSubmit = async(event) => {
-        event.preventDefault();
-        if(newPostContent.trim()){
-            const data = await postSubmit(newPostContent,loggedInUserData.userId,currentFeedId);
-            setPosts((prev)=> [...prev,data])
-            setNewPostContent('');
-        }
-    }
+    
 
     return(<div>
 
