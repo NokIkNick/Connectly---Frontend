@@ -37,7 +37,6 @@ const GlobalStyles = createGlobalStyle`
     }
 
 
-
     body{
         background-color: var(--offwhite);
         font-family: 'StabilGrotesk-regular', sans-serif;
