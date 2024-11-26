@@ -8,6 +8,7 @@ const GlobalStyles = createGlobalStyle`
         --blue: #2271D2;
         /*Accent Background*/
         --dark-blue: #1E453C;
+        --blue-hover: #0056b3;
 
         /*Whites*/
         /*Text*/
@@ -29,6 +30,13 @@ const GlobalStyles = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
+
+    button{
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+
 
     body{
         background-color: var(--offwhite);
