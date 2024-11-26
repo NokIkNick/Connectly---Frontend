@@ -18,7 +18,6 @@ function App() {
           <Route path="/signup" element={<Register />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="*" element={<h1>Not Found</h1>} />
-          
         </Routes> 
       </BrowserRouter>
     </>

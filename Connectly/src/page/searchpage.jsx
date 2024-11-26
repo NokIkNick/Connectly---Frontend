@@ -30,34 +30,8 @@ const samplePeople = [
 ];  
 //uncomment the line above to see the sample data
 export const Searchsite = () => {
-    const [people, setPeople] = useState([]);
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
-    const [selectedProfile, setSelectedProfile] = useState(null);
-    const [activeButton, setActiveButton] = useState([]);
 
-    useEffect(() => {
-        setPeople(samplePeople);
-    }, []);
-
-    const handleConnectClick = (profile) => {
-        setSelectedProfile(profile);
-        setIsPopupVisible(true);
-    };
-
-    const handleClosePopup = () => {
-        setIsPopupVisible(false);
-        setSelectedProfile(null);
-    };
-
-    const handleButtonClick = (buttonType, event) => {
-        event.preventDefault();
-        setActiveButton((prevActiveButtons) =>
-            prevActiveButtons.includes(buttonType)
-                ? prevActiveButtons.filter((type) => type !== buttonType)
-                : [...prevActiveButtons, buttonType]
-        );
-    };
-
+    // Styled components
     const Standinnavbar = styled.div`
         background-color: var(--blue);
         color: black;
@@ -81,18 +55,8 @@ export const Searchsite = () => {
     const Column = styled.div`
         flex: 1;
         padding: 20px;
-        //border: 1px solid black;
+        border: 1px solid black;
         margin: 0 5px;
-    `;
-
-    const FeedAndCategories = styled(Column)`
-    flex: 0.5;
-    height: 80vh;
-    overflow-y: auto;
-    scrollbar-width: none;
-        @media (max-width: 1000px) {
-            display: none;
-        }
     `;
 
     const SearchResults = styled(Column)`
@@ -100,43 +64,11 @@ export const Searchsite = () => {
         height: 80vh;
         overflow-y: auto;
         scrollbar-width: none;
-        @media (max-width: 768px) {
-            flex: 2;
-        }
-        @media (max-width: 1500px) {
-            flex: 1.5;
-        }
     `;
 
     const Ads = styled(Column)`
         flex: 0.5;
-        @media (max-width: 768px) {
-            flex: 1;
-        }
-    `;
-
-    const FACButton = styled.button`
-        margin: 20px 0;
-        background-color: var(--offwhite);
-        display: block;
-        width: 100%;
-        border: 2px var(--blue) solid;
-        color: var(--blue);
-        border-radius: 10px;
-        padding: 20px 20px;
-        cursor: pointer;
-    `;
-
-    const CButton = styled.button`
-        margin: 20px 0;
-        display: block;
-        background-color: var(--offwhite);
-        width: 100%;
-        border: 2px var(--blue) solid;
-        color: var(--blue);
-        border-radius: 10px;
-        padding: 20px 20px;
-        cursor: pointer;
+        
     `;
 
     const AD = styled.div`
@@ -179,6 +111,9 @@ export const Searchsite = () => {
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        &:hover {
+            background-color: var(--blue-hover);
+        }
     `;
 
     const Popup = styled.div`
@@ -259,8 +194,103 @@ export const Searchsite = () => {
         `}
     `;
 
-    const AddConnectionButton = styled(FriendButton)``;
+    const PaginateContainer = styled.div`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        button {
+            background-color: var(--blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+    `;
 
+    const PrevNext = styled.button`
+        &:hover {
+            background-color: var(--blue-hover);
+        }
+    `;
+
+    const [profilesPerPage, setProfilesPerPage] = useState(5);
+    const [people, setPeople] = useState([]);
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [selectedProfile, setSelectedProfile] = useState(null);
+    const [activeButton, setActiveButton] = useState([]);
+    const [connectedIds, setConnectedIds] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const AddConnectionButton = styled(FriendButton)``;
+    const indexOfLastProfile = currentPage * profilesPerPage;
+    const indexOfFirstProfile = indexOfLastProfile - profilesPerPage;
+    const currentProfiles = people.slice(indexOfFirstProfile, indexOfLastProfile);
+    const totalPages = Math.ceil(people.length / profilesPerPage);
+    
+
+
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            if (width < 700) {
+                setProfilesPerPage(3);
+            } else if (width < 1000) {
+                setProfilesPerPage(6);
+            } else {
+                setProfilesPerPage(10);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Call initially to set the correct profiles per page
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+
+    }, []);
+    //to fetch already connected profiles
+    useEffect(() => {
+        //fetch connected profiles
+        //setConnectedIds(response.data)
+    }, []);
+
+    //for example data
+    useEffect(() => {
+        setPeople(samplePeople);
+    }, []);
+
+    const handleConnectClick = (profile) => {
+        setSelectedProfile(profile);
+        setIsPopupVisible(true);
+    };
+
+    const handleClosePopup = () => {
+        setIsPopupVisible(false);
+        setSelectedProfile(null);
+    };
+
+    const handleButtonClick = (buttonType, event) => {
+        event.preventDefault();
+        setActiveButton((prevActiveButtons) =>
+            prevActiveButtons.includes(buttonType)
+                ? prevActiveButtons.filter((type) => type !== buttonType)
+                : [...prevActiveButtons, buttonType]
+        );
+    };
+    
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     return (
         <>
@@ -269,40 +299,34 @@ export const Searchsite = () => {
             </Standinnavbar>
 
             <Container>
-                
-                <FeedAndCategories>
-                    <h2>FEED </h2>
-                    <FACButton>Family</FACButton>
-                    <FACButton>Family</FACButton>
-                    <FACButton>Family</FACButton>
-
-                    <h2>CATEGORIES</h2>
-                    <CButton>Category 1</CButton>
-                    <CButton>Category 2</CButton>
-                    <CButton>Category 3</CButton>
-
-                    <h2>EXAMPLE3</h2>
-                    <CButton>This</CButton>
-                    <CButton>example</CButton>
-                    <CButton>for</CButton>
-                    <CButton>scrolling on mobile devices</CButton>
-                </FeedAndCategories>
-
                 <SearchResults>
                 <h2>Search Results for: </h2>
-                    {people &&
-                        people.map((item) => (
+                {people.length === 0 && <h2>Loading...</h2>}
+                    {currentProfiles &&
+                        currentProfiles.map((item) => (
                             <Profiles key={item.email}>
                                 {/* Stand-in. Replace with actual image */}
                                 <Avatar src="user-svgrepo-com.svg" alt="profile image" />
                                 <h3>
                                     {item.firstname} {item.lastname}
                                 </h3>
-                                <AddButton onClick={() => handleConnectClick(item)}>Connect</AddButton>
+                                <AddButton onClick={() => handleConnectClick(item)}>
+                                    {connectedIds.includes(item.email) ? "Connected" : "Connect"}
+                                </AddButton> 
                             </Profiles>
                         ))}
+                
+                <PaginateContainer>
+                    <PrevNext onClick={handlePreviousPage} disabled={currentPage === 1}>
+                        Previous
+                    </PrevNext>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <PrevNext onClick={handleNextPage} disabled={currentPage === totalPages}>
+                        Next
+                    </PrevNext>
+                </PaginateContainer>
                 </SearchResults>
-
+                
                 <Ads>
                     <AD>
                         <h2>AD</h2>
@@ -312,7 +336,9 @@ export const Searchsite = () => {
                     </AD>
                 </Ads>
             </Container>
-
+            
+            {/* Modal popup */}
+            
             {isPopupVisible && (
                 <>
                     <Overlay onClick={handleClosePopup} />
