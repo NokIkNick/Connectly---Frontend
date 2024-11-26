@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import React from 'react'
 import { Searchsite } from './page/searchpage'
 import Register from './page/Register';
-import  Home  from './layout/Home';
+import  Home  from './page/Home';
 import { Mainpage } from './page/mainpage';
 import { Messages } from './page/messages';
 
