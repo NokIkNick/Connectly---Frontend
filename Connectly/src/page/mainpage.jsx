@@ -1,8 +1,53 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Category from "../components/Category";
+// Sample data (replace or fetch dynamically as needed)
+const sampleData = [
+    { id: 1, title: "Family Feed Content", category: "Travel", feed: "Family" },
+    { id: 2, title: "Friends Feed Content", category: "Hobbies", feed: "Friends" },
+    { id: 3, title: "Work Feed Content", category: "Education", feed: "Work" },
+    { id: 4, title: "Another Family Content", category: "Travel", feed: "Family" },
+];
+
+const feedOptions = ["Family", "Friends", "Work"];
+const categoryOptions = ["Travel", "Hobbies", "Education", "Health & Fitness","Media",
+    "Current Events",
+    "Events",
+    "Education",];
 
 export const Mainpage = () => {
-    
+    const [data, setData] = useState([]); // Holds full data
+    const [filteredData, setFilteredData] = useState([]); // Data based on filters
+    const [selectedFeed, setSelectedFeed] = useState("Default"); // Default feed
+    const [selectedCategory, setSelectedCategory] = useState(""); // No category by default
+
+    useEffect(() => {
+        setData(sampleData);
+        setFilteredData(sampleData);
+    }, []);
+
+    // Handle feed selection
+    const handleFeedClick = (feed) => {
+        const newFeed = feed === selectedFeed ? "Default" : feed;
+        setSelectedFeed(newFeed);
+    };
+
+    // Handle category selection
+    const handleCategoryClick = (category) => {
+        const newCategory = category === selectedCategory ? "" : category;
+        setSelectedCategory(newCategory);
+    };
+
+    // Update filtered data when feed or category changes
+    useEffect(() => {
+        const filtered = data.filter((item) => {
+            const matchesFeed = selectedFeed === "Default" || item.feed === selectedFeed;
+            const matchesCategory = !selectedCategory || item.category === selectedCategory;
+            return matchesFeed && matchesCategory;
+        });
+        setFilteredData(filtered);
+    }, [selectedFeed, selectedCategory, data]);
+
     const Standinnavbar = styled.div`
         background-color: var(--blue);
         color: black;
@@ -22,19 +67,17 @@ export const Mainpage = () => {
         flex-wrap: wrap;
     `;
 
-    //out-comment border below to better see layout.
     const Column = styled.div`
         flex: 1;
         padding: 20px;
-        //border: 1px solid black;
         margin: 0 5px;
     `;
 
     const FeedAndCategories = styled(Column)`
-    flex: 0.5;
-    height: 80vh;
-    overflow-y: auto;
-    scrollbar-width: none;
+        flex: 0.5;
+        height: 80vh;
+        overflow-y: auto;
+        scrollbar-width: none;
         @media (max-width: 1000px) {
             display: none;
         }
@@ -62,23 +105,11 @@ export const Mainpage = () => {
 
     const FACButton = styled.button`
         margin: 20px 0;
-        background-color: var(--offwhite);
+        background-color: ${(props) => (props.active ? "var(--blue)" : "var(--offwhite)")};
+        color: ${(props) => (props.active ? "white" : "var(--blue)")};
         display: block;
         width: 100%;
         border: 2px var(--blue) solid;
-        color: var(--blue);
-        border-radius: 10px;
-        padding: 20px 20px;
-        cursor: pointer;
-    `;
-
-    const CButton = styled.button`
-        margin: 20px 0;
-        display: block;
-        background-color: var(--offwhite);
-        width: 100%;
-        border: 2px var(--blue) solid;
-        color: var(--blue);
         border-radius: 10px;
         padding: 20px 20px;
         cursor: pointer;
@@ -93,7 +124,6 @@ export const Mainpage = () => {
         margin: 20px 0;
     `;
 
-        // default FACButton should be 'active' when page is loaded and loaded with that 'feed'
     return (
         <>
             <Standinnavbar>
@@ -102,19 +132,39 @@ export const Mainpage = () => {
             <Container>
                 <FeedAndCategories>
                     <h2>FEED </h2>
-                    <FACButton>Family</FACButton>
-                    <FACButton>Friends</FACButton>
-                    <FACButton>Work</FACButton>
-                    <FACButton>'Default'</FACButton>
+                    {feedOptions.map((feed) => (
+                        <FACButton
+                            key={feed}
+                            active={selectedFeed === feed}
+                            onClick={() => handleFeedClick(feed)}
+                        >
+                            {feed}
+                        </FACButton>
+                    ))}
 
                     <h2>CATEGORIES</h2>
-                    <CButton>Category 1</CButton>
-                    <CButton>Category 2</CButton>
-                    <CButton>Category 3</CButton>
+                    {categoryOptions.map((category) => (
+                        <Category
+                            key={category}
+                            name={category}
+                            active={selectedCategory === category}
+                            onClick={handleCategoryClick}
+                        />
+                    ))}
                 </FeedAndCategories>
 
                 <Feed>
-                    <h2>Search results</h2>
+                    <h2>Search Results</h2>
+                    {filteredData.length > 0 ? (
+                        filteredData.map((item) => (
+                            <div key={item.id}>
+                                <h3>{item.title}</h3>
+                                <p>Feed: {item.feed} | Category: {item.category}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No results found.</p>
+                    )}
                 </Feed>
 
                 <Ads>
