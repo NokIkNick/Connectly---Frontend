@@ -2,27 +2,18 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
     :root {
-
-        /*Blues*/
-        /*Background*/
-        --blue: #2271D2;
-        /*Accent Background*/
-        --dark-blue: #1E453C;
-        --blue-hover: #0056b3;
-
-        /*Whites*/
-        /*Text*/
-        --offwhite: #F2F2F2;
-        /*Accents*/
-        --eggshell: #F3F3E4;
         
-
-        /*Blacks*/
-        /*Text*/
+        --grey: #c3c3c3;
         --light-grey: #D9D9D9;
-        ;
+        --grey-hover: #f2f2f2;
 
-        --grey: #404A4F;
+        --white: #ffffff;
+        --offwhite: #d8d8d8;
+
+        --blue: #2271D2;
+        --blue-hover: #1b5aa8;
+
+        --background: #f2f2f2
     }
 
     *{
@@ -35,10 +26,13 @@ const GlobalStyles = createGlobalStyle`
         border-radius: 5px;
         cursor: pointer;
     }
-
+    
+    h1, h2, h3, h4, h5, h6, button {
+    font-family: 'StabilGrotesk-bold', sans-serif;
+}
 
     body{
-        background-color: var(--offwhite);
+        background-color: var(--background);
         font-family: 'StabilGrotesk-regular', sans-serif;
     
     @font-face {
