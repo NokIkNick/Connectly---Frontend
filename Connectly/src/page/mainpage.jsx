@@ -14,8 +14,6 @@ export const Mainpage = () => {
         setShowModal(false);
     };
 
-
-
     const Standinnavbar = styled.div`
         background-color: var(--blue);
         color: black;
@@ -106,6 +104,7 @@ export const Mainpage = () => {
         background-color: var(--white);
         border-radius: 10px;
         padding: 10px; /* Added padding for better spacing */
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); /* Added box shadow for better visibility */
     `;
 
     const ProfilePicture = styled.div`
@@ -129,6 +128,9 @@ export const Mainpage = () => {
         font-size: 1.2rem;
         background-color: var(--background);
         border: none;
+        &:hover {
+            background-color: var(--light-grey);
+        }
     `;
 
     
