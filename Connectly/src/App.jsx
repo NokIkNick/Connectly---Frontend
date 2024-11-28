@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
-import { Searchsite } from './page/searchpage'
+import  Searchsite  from './page/Searchsite';
 import Register from './page/Register';
 import  Home  from './page/Home';
 import { Mainpage } from './page/mainpage';
@@ -19,6 +19,7 @@ function App() {
 
 
   const validateToken = () => {
+    
     let token = localStorage.getItem("token");
     if(token === null || token === undefined || token === ""){
       setTokenIsValid(false);
@@ -26,7 +27,16 @@ function App() {
       return;
     }
 
-    let tokenData = JSON.parse(atob(token.split('.')[1]));
+    let tokenData;
+    try {
+      tokenData = JSON.parse(atob(token.split('.')[1]));
+    } catch (error) {
+      console.error("Invalid token format", error);
+      setTokenIsValid(false);
+      localStorage.removeItem("token");
+      return;
+    }
+    
     if(tokenData.exp < Date.now() / 1000){
       alert("Token has expired, please log in again");
       setTokenIsValid(false);
