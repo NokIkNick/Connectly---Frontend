@@ -7,6 +7,19 @@ export default defineConfig({
       bundler: "vite",
     },
   },
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "vite",
+    },
+  },
+
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "vite",
+    },
+  },
 
   e2e: {
     setupNodeEvents(on, config) {
