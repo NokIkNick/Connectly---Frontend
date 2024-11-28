@@ -106,6 +106,8 @@ export const register = async (credentials, retries = 3) => {
 //Fetches all profiles from the api.
 //Returns an array of profiles.
 export const getAllProfiles = async (retries = 3) => {
+
+    
     const url = `${BASE_URL}/public/getAllProfiles`;
     const options = {
         method: "GET",
@@ -142,7 +144,15 @@ export const getAllProfiles = async (retries = 3) => {
 //Currently ID is email, but should be changed to something else.
 //Fethces a single profile.
 export const getProfile = async (id, retries = 3) => {
-    const url = `${BASE_URL}/public/getProfile/${id}`;
+    const response = await fetch("/TestSearchData.json");
+    const data = await response.json();
+    const profiles = data.filter(profile => profile.fullName.includes(id));
+    if (profiles.length === 0) {
+        throw new Error("No profiles found");
+    }
+    return profiles;
+
+    /*const url = `${BASE_URL}/public/getProfile/${id}`;
     const options = {
         method: "GET",
         headers: {
@@ -171,7 +181,7 @@ export const getProfile = async (id, retries = 3) => {
                 throw new Error(`Failed to get profile: ${error.message}`);
             }
         }
-    }
+    } */
 };
 
 //Searches for profiles based on a query.

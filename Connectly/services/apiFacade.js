@@ -48,7 +48,7 @@ export const getAllProfiles = async (retries = 3) => {
                 throw new Error(`Failed to get all profiles: ${error.message}`);
             }
         }
-    }
+    } 
 };
 
 
