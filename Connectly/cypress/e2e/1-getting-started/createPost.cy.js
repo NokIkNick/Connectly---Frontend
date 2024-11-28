@@ -10,11 +10,11 @@ describe.only('Start visiting site', () => {
     })
 
     it('Modal popup', () => {
-        cy.get('.sc-giBObj').click();
+        cy.get('.sc-irPVuy').click();
         //cy.get('div').contains('Modal Content').should('be.visible');
-        cy.get('.sc-dprtRQ').type('Hello World');
-        cy.get('.sc-eUlrpB').select('Family');
-        cy.get('.sc-geXuza').click();
+        cy.get('.sc-eMwmJz').type('This is a test post');
+        cy.get('.sc-drVZOg').select('Family');
+        cy.get('.sc-eWPXlR').click();
         // Waiting for connection with backend.
 
     })
