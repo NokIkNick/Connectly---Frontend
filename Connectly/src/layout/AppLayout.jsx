@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom"
-import Header from "./Header"
+import { MainNav } from "./MainNav"
 
 
-export const AppLayout = ({search, setSearch}) => {
+export const AppLayout = ({search, setSearch, triggerSearch}) => {
     return (
       <>
-        <Header search={search}setSearch={setSearch} />
+        <MainNav search={search}setSearch={setSearch} triggerSearch={triggerSearch} />
         <Outlet />
       </>
     )
