@@ -86,7 +86,7 @@ const NewChatModal = ({ show, onClose, onAddToChat }) => {
 
   const handleAdd = (contact) => {
     onAddToChat(contact);
-    onClose(); // Close modal after adding
+    onClose(); 
   };
 
   useEffect(() => {
