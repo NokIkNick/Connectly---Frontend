@@ -102,69 +102,79 @@ const SearchField = styled.input`
   border-radius: 5px;
   margin-bottom: 20px;
 `;
-
 export const Messages = () => {
-  const [showNewChatModal, setShowNewChatModal] = useState(false);
-  const [pastMessagesProfiles, setPastMessagesProfiles] = useState([]);
-  const [currentChat, setCurrentChat] = useState([]);
-  const [selectedChatId, setSelectedChatId] = useState(null);
-
-  const handleAddToChat = (contact) => {
-    setPastMessagesProfiles((prev) => [...prev, contact]);
-  };
-
-  const handleMessageSelect = (chatId) => {
-    setSelectedChatId(chatId);
-    setCurrentChat([
-      { id: 1, text: "Current chat message 1" },
-      { id: 2, text: "Current chat message 2" },
-      { id: 3, text: "Current chat message 3" },
-    ]);
-  };
-
-  return (
-    <>
-      <Standinnavbar>
-        <h1>this is a stand-in for a navbar</h1>
-      </Standinnavbar>
-
-      <Container>
-        <MessagesColumn>
-          <NewChatButton onClick={() => setShowNewChatModal(true)}>
-            <h3>New Chat</h3>
-          </NewChatButton>
-          <SearchField type="search" placeholder="Search for a chat..." />
-          {pastMessagesProfiles.map((message) => (
-            <MessagesBox
-              key={message.id}
-              onClick={() => handleMessageSelect(message.id)}
-            >
-              <div>
-                {message.name} <br />
-                <p style={{ fontSize: "small", color: "grey" }}>
-                </p>
-              </div>
-            </MessagesBox>
-          ))}
-        </MessagesColumn>
-        <ChatContainer>
-          <Chat>
-            {currentChat.map((message) => (
-              <p key={message.id}>{message.text}</p>
+    const [showNewChatModal, setShowNewChatModal] = useState(false);
+    const [pastMessagesProfiles, setPastMessagesProfiles] = useState([]);
+    const [currentChat, setCurrentChat] = useState([]);
+    const [selectedChatId, setSelectedChatId] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(""); 
+  
+    const handleAddToChat = (contact) => {
+      setPastMessagesProfiles((prev) => [...prev, contact]);
+    };
+  
+    const handleMessageSelect = (chatId) => {
+      setSelectedChatId(chatId);
+      setCurrentChat([
+        { id: 1, text: "Current chat message 1" },
+        { id: 2, text: "Current chat message 2" },
+        { id: 3, text: "Current chat message 3" },
+      ]);
+    };
+  
+    // Filter the messages based on the search query
+    const filteredMessages = pastMessagesProfiles.filter((message) =>
+      message.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  
+    return (
+      <>
+        <Standinnavbar>
+          <h1>this is a stand-in for a navbar</h1>
+        </Standinnavbar>
+  
+        <Container>
+          <MessagesColumn>
+            <NewChatButton onClick={() => setShowNewChatModal(true)}>
+              <h3>New Chat</h3>
+            </NewChatButton>
+            <SearchField
+              type="search"
+              placeholder="Search for a chat..."
+              value={searchQuery} // Controlled component
+              onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+            />
+            {filteredMessages.map((message) => (
+              <MessagesBox
+                key={message.id}
+                onClick={() => handleMessageSelect(message.id)}
+              >
+                <div>
+                  {message.name} <br />
+                  <p style={{ fontSize: "small", color: "grey" }}>
+                  </p>
+                </div>
+              </MessagesBox>
             ))}
-          </Chat>
-          <MessagingBox>
-            <ChatInput type="text" placeholder="Type a message..." />
-            <SendButton>Send</SendButton>
-          </MessagingBox>
-        </ChatContainer>
-      </Container>
-
-      <NewChatModal
-        show={showNewChatModal}
-        onClose={() => setShowNewChatModal(false)}
-        onAddToChat={handleAddToChat}
-      />
-    </>
-  );
-};
+          </MessagesColumn>
+          <ChatContainer>
+            <Chat>
+              {currentChat.map((message) => (
+                <p key={message.id}>{message.text}</p>
+              ))}
+            </Chat>
+            <MessagingBox>
+              <ChatInput type="text" placeholder="Type a message..." />
+              <SendButton>Send</SendButton>
+            </MessagingBox>
+          </ChatContainer>
+        </Container>
+  
+        <NewChatModal
+          show={showNewChatModal}
+          onClose={() => setShowNewChatModal(false)}
+          onAddToChat={handleAddToChat}
+        />
+      </>
+    );
+  };
