@@ -1,138 +1,89 @@
 import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-
-const NavStyle = styled.nav`
-    color: var(--grey);
-    background-color: var(--green);
+const NavContainer = styled.div`
+     color: var(--grey);
+    background-color: var(--blue);
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: fixed;
+    padding: 1rem 1.5rem;
     top: 0;
     width: 100%;
     z-index: 1000;
+    
 `;
 
 const Logo = styled.img`
+    margin: 0 auto;
+    width: 50px;
     cursor: pointer;
-    height: 50px;
 `;
 
-const SearchWrapper = styled.div`
+const Search = styled.input`
     position: relative;
     max-width: 100%;
     width: 100%;
-        input {
-            width: calc(100% - 3rem); // subtract the width of the button
-            margin: 0 10px;
-            padding: 0.5rem 0.5rem;
-            border: 1px solid gray;
-            border-radius: 5px;
-            background-color: var(--basewhite);
-            outline: none;
-        }
-    @media (max-width: 500px) {
-        input {
-            display: none;
-        }
-    
-    }
+    width: calc(100% - 3rem); // subtract the width of the button
+    margin: 0 10px;
+    padding: 1rem 0.5rem;
+    border: 1px solid gray;
+    border-radius: 50px;
+    background-color: var(--background);
+    outline: none;
+    padding-left: 1rem;
+    font-size: 1rem;
 `;
 
-const Buttons = styled.div`
+const BackButton = styled.button`
     display: flex;
-    button {
-        padding: 0.5rem 0.7rem;
-        margin: 0 0.2rem;
-        background-color: var(--basewhite);
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        img {
-            height: 1rem;
-        }
-    }
+    padding: 15px 30px;
+    margin: 0 0.2rem;
+    background-color: var(--background);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 `;
 
 
-export const MainNav = ({search, setSearch}) => {
-const params = useParams();
-const navigate = useNavigate();
-let debounceTimer;
-const inputRef = useRef();
-const MainNav = () => {
-    let button;
-    if (window.location.pathname === "/home" || window.location.pathname === "/createthread" || window.location.pathname === "/accountPage") {
-        if(localStorage.getItem("token") === null || localStorage.getItem("token") === undefined) {
-            button = <button>Login first</button>;
-        } else {
-            button = <button onClick={() => {navigate("/createthread")}}>Create Thread</button>;
+export const MainNav = ({search, setSearch, triggerSearch}) => {
+    const navigate = useNavigate();
+    const searchRef = useRef();
+    const location = useLocation();
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && document.activeElement === searchRef.current) {
+            console.log('Search triggered:', search);
+            if (location.pathname === '/search') {
+                navigate('/search');
+                triggerSearch(search);
+            } else {
+                navigate('/search');
+            }
         }
-    } else {
-        button = null;
-    }
-return (
-    <div>
-        {button}
-    </div>
-);
-}
+    };
 
-function handleChange(event){
-    const search = event.target.value;
-    handleSearchPosts(search);
-}
+    useEffect(() => {
+        const searchInput = searchRef.current;
+        searchInput.addEventListener('keydown', handleKeyDown);
 
-function handleSearchPosts(search){
-    setSearch(search);
-}
-
-function userButton(){
-    if (localStorage.getItem("token") === null || localStorage.getItem("token") === undefined){
-        navigate("/login");
-        console.log("Login first");
-    } else {
-        console.log("Account page");
-        navigate("/accountPage");
-        
-    }
-}
-
-useEffect(() => {
-    inputRef.current.focus();
-}, [search]);
-
-
-const SearchField = () => {
-    let input;
-    if(window.location.pathname === "/accountPage" || window.location.pathname === "/thread/"+params.id || window.location.pathname === "/user/"+params.id || window.location.pathname === "/createthread") {
-        input = null;
-    } else {
-        input = <input type="search" placeholder="Search..." value={search} ref={inputRef} onChange={handleChange} />;
-    }
+        return () => {
+            searchInput.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [search]);
 
     return (
-        <div>
-            {input}
-        </div>
-    );
-};
-
-return (    
-        <NavStyle>
-            <Logo src="/fulllogo.svg" alt="Logo" onClick={() => {navigate("/home")}} />
-                <SearchWrapper >
-                    <SearchField />
-                </SearchWrapper>
-                <Buttons>
-                    <button onClick={() => {navigate(-1)}}>Go back</button>
-                    <MainNav />
-                    <button onClick={userButton}>
-                        <img src="/user.svg" alt="user" />
-                    </button>
-                </Buttons>
-        </NavStyle>
-);
+       <NavContainer>
+            <Logo onClick={() => navigate("/home")} src="/logo_transparent.png"/>
+            <Search 
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                ref={searchRef}
+                placeholder="Search for profiles..."/>
+            <BackButton onClick={() => navigate(-1)}>back</BackButton>
+        </NavContainer>
+    )
 }
