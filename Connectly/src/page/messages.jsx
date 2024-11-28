@@ -79,6 +79,8 @@ padding: 20px;
 border-radius: 10px;
 color: black;
 cursor: pointer;
+background-color: var(--white);
+margin-bottom: 10px;
 &:hover {
     background-color: var(--light-grey);
 }
@@ -168,7 +170,7 @@ export const Messages = () => {
     }, [searchQuery]);
 
     function filterItems(query) {
-        if(query === String){
+        if(query === String){   
             log.console("query is a string");
         }
         if (query === '') {
