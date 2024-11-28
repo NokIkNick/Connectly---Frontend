@@ -6,12 +6,14 @@ import  Home  from './page/Home';
 import { Mainpage } from './page/mainpage';
 import { Messages } from './page/messages';
 import { TokenValidator } from './components/TokenValidator';
+import { AppLayout } from './layout/AppLayout';
 
 
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState({"username": "", "roles": "", "email": ""});
-  const [tokenIsValid, setTokenIsValid] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState({"fullName": "", "roles": "", "email": ""});
+  const [tokenIsValid, setTokenIsValid] = useState(true);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     validateToken();
@@ -20,7 +22,7 @@ function App() {
 
   const validateToken = () => {
     
-    let token = localStorage.getItem("token");
+    /*let token = localStorage.getItem("token");
     if(token === null || token === undefined || token === ""){
       setTokenIsValid(false);
       console.log("No token found")
@@ -42,12 +44,19 @@ function App() {
       setTokenIsValid(false);
       localStorage.removeItem("token");
       return;
-    }
+    } */
+
 
     setTokenIsValid(true);
-    setLoggedInUser({username: tokenData.username, roles: tokenData.roles, email: tokenData.email});
+    //setLoggedInUser({username: tokenData.username, roles: tokenData.roles, email: tokenData.email});
+    setLoggedInUser({fullName: "defaultUser", roles: "defaultRole", email: "defaultEmail"});
     console.log("Token is valid");
   }
+
+  const triggerSearch = (newSearch) => {
+    console.log("Search triggered2:", newSearch);
+    setSearch(newSearch);
+};
 
 
   return (
@@ -55,16 +64,18 @@ function App() {
     
       <BrowserRouter>
         <Routes>
-
-          <Route path="*" element={<TokenValidator tokenIsValid={tokenIsValid}>
-              <Routes>
-                <Route path="/home" element={<Mainpage />} />
-                <Route path="/search" element={<Searchsite/>} />
-                <Route path="/messages" element={<Messages />} />
-              </Routes >
-            </TokenValidator>}>
+          <Route element={
+            <AppLayout search={search} setSearch={setSearch} triggerSearch={triggerSearch}/>
+          }>
+            <Route path="*" element={<TokenValidator tokenIsValid={tokenIsValid}>
+                <Routes>
+                  <Route path="/home" element={<Mainpage loggedInUser={loggedInUser} />} />
+                  <Route path="/search" element={<Searchsite loggedInUser={loggedInUser} search={search} setSearch={setSearch} triggerSearch={triggerSearch}/>} />
+                  <Route path="/messages" element={<Messages loggedInUser={loggedInUser} />} />
+                </Routes >
+              </TokenValidator>}>
+            </Route>
           </Route>
-
           
           <Route path="/" element={<Home />}/>
           <Route path="/signup" element={<Register />}/>
