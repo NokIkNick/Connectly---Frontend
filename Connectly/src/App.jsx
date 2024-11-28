@@ -1,23 +1,67 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Searchsite } from './page/searchpage'
 import Register from './page/Register';
 import  Home  from './page/Home';
 import { Mainpage } from './page/mainpage';
 import { Messages } from './page/messages';
+import { TokenValidator } from './components/TokenValidator';
+
+
 
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState({"username": "", "roles": "", "email": ""});
+  const [tokenIsValid, setTokenIsValid] = useState(false);
+
+  useEffect(() => {
+    validateToken();
+},[]);
+
+
+  const validateToken = () => {
+    let token = localStorage.getItem("token");
+    if(token === null || token === undefined || token === ""){
+      setTokenIsValid(false);
+      console.log("No token found")
+      return;
+    }
+
+    let tokenData = JSON.parse(atob(token.split('.')[1]));
+    if(tokenData.exp < Date.now() / 1000){
+      alert("Token has expired, please log in again");
+      setTokenIsValid(false);
+      localStorage.removeItem("token");
+      return;
+    }
+
+    setTokenIsValid(true);
+    setLoggedInUser({username: tokenData.username, roles: tokenData.roles, email: tokenData.email});
+    console.log("Token is valid");
+  }
+
+
   return (
     <>
     
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Mainpage />} />
-          <Route path="/search" element={<Searchsite/>} />
-          <Route path="/signup" element={<Register />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="*" element={<h1>Not Found</h1>} />
+
+          <Route path="*" element={<TokenValidator tokenIsValid={tokenIsValid}>
+              <Routes>
+                <Route path="/home" element={<Mainpage />} />
+                <Route path="/search" element={<Searchsite/>} />
+                <Route path="/messages" element={<Messages />} />
+              </Routes >
+            </TokenValidator>}>
+          </Route>
+
+          
+          <Route path="/" element={<Home />}/>
+          <Route path="/signup" element={<Register />}/>
+          <Route path="*" element={<h1>Not Found</h1>}/>
+
+
+
         </Routes> 
       </BrowserRouter>
     </>
