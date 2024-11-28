@@ -2,134 +2,134 @@ import { useEffect, useState } from "react";
 import react from "react";
 import styled from "styled-components";
 
+const Standinnavbar = styled.div`
+background-color: var(--blue);
+color: black;
+text-align: center;
+padding: 4vh;
+position: fixed;
+width: 100%;
+top: 0;
+z-index: 1;
+`;
+
+const Container = styled.div`
+display: flex;
+justify-content: space-between;
+margin-top: 15vh;
+padding: 1px;
+flex-wrap: wrap;
+`;
+
+const Column = styled.div`
+flex: 1;
+padding: 20px;
+`;
+
+const MessagesColumn = styled(Column)`
+flex: 0.3;
+border-right: 1px solid var(--grey);
+height: 80vh;
+overflow-y: auto;
+`;
+
+const ChatContainer = styled(Column)`
+flex: 0.7;
+display: flex;
+flex-direction: column;
+height: 85vh;
+`;
+
+const Chat = styled.div`
+flex: 1;
+padding: 20px;
+overflow-y: auto;
+`;
+
+const MessagingBox = styled.div`
+border-top: 1px solid var(--grey);
+padding: 10px;
+display: flex;
+`;
+
+const ChatInput = styled.input`
+flex: 1;
+outline: none;
+padding: 20px;
+border: none;
+border-radius: 5px;
+margin-right: 10px;
+`;
+
+const SendBotton = styled.button`
+padding: 10px;
+border: none;
+border-radius: 5px;
+background-color: var(--blue);
+color: white;
+cursor: pointer;
+&:hover {
+    background-color: var(--blue-hover);
+}
+`;
+
+const MessagesBox = styled.div`
+max-height: 80px;
+padding: 20px;
+border-radius: 10px;
+color: black;
+cursor: pointer;
+&:hover {
+    background-color: var(--light-grey);
+}
+`;
+
+const ProfilePicture = styled.img`
+width: 50px;
+height: 50px;
+border-radius: 50%;
+margin-right: 10px;
+`;
+
+const MessageContent = styled.div`
+display: flex;
+align-items: center;
+gap: 10px;
+`;
+
+const NewChatButton = styled.button`
+padding: 20px;
+border: none;
+background-color: var(--blue);
+color: white;
+cursor: pointer;
+width: 40%;
+border-radius: 5px;
+margin-bottom: 20px;
+&:hover {
+    background-color: var(--blue-hover);
+}
+`;
+
+const SearchField = styled.input`
+width: 100%;
+padding: 10px;
+border: none;
+border-radius: 5px;
+margin-bottom: 20px;
+`;
 
 export const Messages = () => {
-    const Standinnavbar = styled.div`
-        background-color: var(--blue);
-        color: black;
-        text-align: center;
-        padding: 4vh;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1;
-    `;
-
-    const Container = styled.div`
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15vh;
-        padding: 1px;
-        flex-wrap: wrap;
-    `;
-
-    const Column = styled.div`
-        flex: 1;
-        padding: 20px;
-    `;
-
-    const Messages = styled(Column)`
-        flex: 0.3;
-        border-right: 1px solid var(--grey);
-        height: 80vh;
-        overflow-y: auto;
-    `;
-
-    const ChatContainer = styled(Column)`
-        flex: 0.7;
-        display: flex;
-        flex-direction: column;
-        height: 85vh;
-    `;
-
-    const Chat = styled.div`
-        flex: 1;
-        padding: 20px;
-        overflow-y: auto;
-    `;
-
-    const MessagingBox = styled.div`
-        border-top: 1px solid var(--grey);
-        padding: 10px;
-        display: flex;
-    `;
-
-    const ChatInput = styled.input`
-        flex: 1;
-        outline: none;
-        padding: 20px;
-        border: none;
-        border-radius: 5px;
-        margin-right: 10px;
-    `;
-
-    const SendBotton = styled.button`
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: var(--blue);
-        color: white;
-        cursor: pointer;
-        &:hover {
-            background-color: var(--blue-hover);
-        }
-    `;
-
-    const MessagesBox = styled.div`
-        max-height: 80px;
-        padding: 20px;
-        border-bottom: 1px solid var(--grey);
-        color: black;
-        cursor: pointer;
-        &:hover {
-            background-color: var(--light-grey);
-        }
-    `;
-
-    const ProfilePicture = styled.img`
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 10px;
-    `;
-
-    const MessageContent = styled.div`
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    `;
-
-    const NewChatButton = styled.button`
-        padding: 20px;
-        border: none;
-        background-color: var(--blue);
-        color: white;
-        cursor: pointer;
-        width: 40%;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        &:hover {
-            background-color: var(--blue-hover);
-        }
-    `;
-
-    const SearchField = styled.input`
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        margin-bottom: 20px;
-    `;
+   
 
     // standin data for messages
-    const [pastMessagesProfiles, setPastMessagesProfiles] = useState([
-        { id: 1, name: "Anders Jensen" },
-        { id: 2, name: "Joackim Olsen" },
-        { id: 3, name: "Noah Aalgaard" }
-    ]);
+    const [pastMessagesProfiles, setPastMessagesProfiles] = useState([]);
     const [currentChat, setCurrentChat] = useState([]);
     const [selectedChatId, setSelectedChatId] = useState(null);
+    const [messagesProfiles, setMessagesProfiles] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const [input, setinput] = useState("");
+    
     const handleMessageSelect = (chatId) => {
         setSelectedChatId(chatId);
         //logic to get messages. Currently example messages
@@ -139,17 +139,17 @@ export const Messages = () => {
             { id: 3, text: "Current chat message 3" }
         ]);
         //logic to select message
-    }
+    };
 
     const chatInput = (event) => {
         setinput(event.target.value);
-    }
+    };
 
     //logic to send message
     const handleSend = () => {
-        setCurrentChat([...currentChat, { id: currentChat.length + 1, text: input }]);
+        /*setCurrentChat([...currentChat, { id: currentChat.length + 1, text: input }]);
         console.log(input);
-        /*sendMessage({ text: input }).then(() => {
+        sendMessage({ text: input }).then(() => {
             console.log("Message sent");
         }).catch((error) => {
             console.error(error);
@@ -163,10 +163,45 @@ export const Messages = () => {
         }
     };
 
-    const searchThroughMessages = (event) => {
+    useEffect(() => {
+        filterItems(searchQuery);
+    }, [searchQuery]);
 
+    function filterItems(query) {
+        if(query === String){
+            log.console("query is a string");
+        }
+        if (query === '') {
+            setPastMessagesProfiles(messagesProfiles);
+            return;
+        }
+        const filteredMessages = messagesProfiles.filter((profile) => {
+            return profile.name.toLowerCase().includes(query.toLowerCase());
+        }
+        );
+        setPastMessagesProfiles(filteredMessages);
         //logic to search through messages
+
     }
+
+    const onChangeText = (e) => {
+        setSearchQuery(e.target.value);
+    }
+
+    useEffect(() => {
+        //logic to get messages. Currently example messages
+        setPastMessagesProfiles([
+            { id: 1, name: "Anders Jensen" },
+            { id: 2, name: "Hans bogaard" },
+            { id: 3, name: "Casper Knudsen" }
+        ]);
+        setMessagesProfiles([
+            { id: 1, name: "Anders Jensen" },
+            { id: 2, name: "Hans bogaard" },
+            { id: 3, name: "Casper Knudsen" }
+        ]);
+
+    }, []);
 
     return (
         <>
@@ -175,11 +210,13 @@ export const Messages = () => {
             </Standinnavbar>
 
             <Container>
-                <Messages>
+                <MessagesColumn>
                     <NewChatButton onClick={()=>dothis}>
                         <h3>New Chat</h3>
                     </NewChatButton>
-                    <SearchField type="text" placeholder="Search for a chat..." onChange={()=>searchThroughMessages}/>
+                    <label>
+                    <SearchField type="search" id="name-search" placeholder="Search for a chat..." onChange={onChangeText}/>
+                    </label>
                     {/* Itteriate through past messages... */}
                     {pastMessagesProfiles.map((message) => (
                         <MessagesBox key={message.id} onClick={() => handleMessageSelect(message.id)}>
@@ -190,9 +227,11 @@ export const Messages = () => {
                                     <p style={{ fontSize: "small", color: "grey" }}>*Should maybe be latest message?</p>
                                 </div>
                             </MessageContent>
+                            
                         </MessagesBox>
                     ))}
-                </Messages>
+                    
+                </MessagesColumn>
                 <ChatContainer>
                     <Chat>
                         {/* Itteriate through current chat messages... */}

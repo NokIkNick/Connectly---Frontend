@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Form = styled.form`
-  background-color: white;
+  background-color: var(--white);
   padding: 3.125em;
   border-radius: 10px;
   display: flex;
@@ -63,6 +63,7 @@ const SignUpContainer = styled.div`
 const SignUpText = styled.p`
   margin-right: 10px;
   color: var(--grey);
+  font-weight: bold;
   font-size: 14px;
 `;
 

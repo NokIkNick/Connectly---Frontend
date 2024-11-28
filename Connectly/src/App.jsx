@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import React from 'react'
 import Register from './page/Register';
-import  Home  from './layout/Home';
+import  Home  from './page/Home';
 import { Mainpage } from './page/mainpage';
 import { Messages } from './page/messages';
 import Searchsite from './page/Searchsite';
@@ -17,7 +17,6 @@ function App() {
           <Route path="/signup" element={<Register />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="*" element={<h1>Not Found</h1>} />
-          
         </Routes> 
       </BrowserRouter>
     </>

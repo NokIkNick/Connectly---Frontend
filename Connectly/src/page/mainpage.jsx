@@ -3,7 +3,23 @@ import styled from "styled-components";
 import Category from "../components/Category";
 // Sample data (replace or fetch dynamically as needed)
 //import { fecthcatgories } from "../../services/apiFacade";
-const Standinnavbar = styled.div`
+import Modal from "../components/Modal";
+import NewPostForm from "../components/NewPostForm";
+
+// Removed the duplicate Standinnavbar declaration at the top
+
+export const Mainpage = () => {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const Standinnavbar = styled.div`
         background-color: var(--blue);
         color: black;
         text-align: center;
@@ -53,21 +69,27 @@ const Standinnavbar = styled.div`
 
     const Ads = styled(Column)`
         flex: 0.5;
-        @media (max-width: 768px) {
-            flex: 1;
+        @media (max-width: 520px) {
+            display: none;
         }
     `;
 
     const FACButton = styled.button`
+        font-weight: bold;
         margin: 20px 0;
         background-color: ${(props) => (props.active ? "var(--blue)" : "var(--offwhite)")};
         color: ${(props) => (props.active ? "white" : "var(--blue)")};
         display: block;
         width: 100%;
         border: 2px var(--blue) solid;
+
         border-radius: 10px;
         padding: 20px 20px;
         cursor: pointer;
+
+        &:hover {
+            background-color: var(--blue);
+        }
     `;
 
     const AD = styled.div`
@@ -78,20 +100,28 @@ const Standinnavbar = styled.div`
         border-radius: 10px;
         margin: 20px 0;
     `;
-const sampleData = [
-    { id: 1, title: "Family Feed Content", category: "Travel", feed: "Family" },
-    { id: 2, title: "Friends Feed Content", category: "Hobbies", feed: "Friends" },
-    { id: 3, title: "Work Feed Content", category: "Education", feed: "Work" },
-    { id: 4, title: "Another Family Content", category: "Travel", feed: "Family" },
-];
 
-const feedOptions = ["Family", "Friends", "Work"];
-const categoryOptions = ["Travel", "Hobbies", "Education", "Health & Fitness","Media",
-    "Current Events",
-    "Events",
-    "Education",];
+    // Sample data for the application
+    const sampleData = [
+        { id: 1, title: "Family Feed Content", category: "Travel", feed: "Family" },
+        { id: 2, title: "Friends Feed Content", category: "Hobbies", feed: "Friends" },
+        { id: 3, title: "Work Feed Content", category: "Education", feed: "Work" },
+        { id: 4, title: "Another Family Content", category: "Travel", feed: "Family" },
+    ];
 
-export const Mainpage = () => {
+    const feedOptions = ["Family", "Friends", "Work"];
+    const categoryOptions = [
+        "Travel",
+        "Hobbies",
+        "Education",
+        "Health & Fitness",
+        "Media",
+        "Current Events",
+        "Events",
+        "Education",
+    ];
+
+    // State for managing feed and categories
     const [data, setData] = useState([]); // Holds full data
     const [filteredData, setFilteredData] = useState([]); // Data based on filters
     const [selectedFeed, setSelectedFeed] = useState("Default"); // Default feed
@@ -101,6 +131,8 @@ export const Mainpage = () => {
         setData(sampleData);
         setFilteredData(sampleData);
     }, []);
+
+    // Uncommented comment to emphasize fetching logic
     // useEffect(() => {
     //     // Fetch categories data when the component mounts
     //     const fetchData = async () => {
@@ -115,8 +147,6 @@ export const Mainpage = () => {
 
     //     fetchData();
     // }, []);
-
-
 
     // Handle feed selection
     const handleFeedClick = (feed) => {
@@ -140,8 +170,45 @@ export const Mainpage = () => {
         setFilteredData(filtered);
     }, [selectedFeed, selectedCategory, data]);
 
-    
+    const InputBox = styled.div`
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: var(--white);
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    `;
 
+    const ProfilePicture = styled.div`
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 20px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    `;
+
+    const TextArea = styled.input`
+        width: 100%;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        background-color: var(--background);
+        border: none;
+        &:hover {
+            background-color: var(--light-grey);
+        }
+    `;
+
+    // comments from anders
+    // default FACButton should be 'active' when page is loaded and loaded with that 'feed'
+    const userName = "John Doe"; // Replace with dynamic user name if available
 
     return (
         <>
@@ -173,6 +240,17 @@ export const Mainpage = () => {
                 </FeedAndCategories>
 
                 <Feed>
+                    <InputBox>
+                        <ProfilePicture>
+                            <img src="/user-svgrepo-com.svg" alt="" />
+                        </ProfilePicture>
+                        <TextArea
+                            type="text"
+                            placeholder={`What's on your mind, ${userName}?`}
+                            onFocus={handleOpenModal}
+                        />
+                    </InputBox>
+
                     <h2>Search Results</h2>
                     {filteredData.length > 0 ? (
                         filteredData.map((item) => (
@@ -195,6 +273,10 @@ export const Mainpage = () => {
                     </AD>
                 </Ads>
             </Container>
+
+            <Modal show={showModal} onClose={handleCloseModal}>
+                <NewPostForm />
+            </Modal>
         </>
     );
 };
