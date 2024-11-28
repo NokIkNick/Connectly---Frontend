@@ -2,53 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Category from "../components/Category";
 // Sample data (replace or fetch dynamically as needed)
-const sampleData = [
-    { id: 1, title: "Family Feed Content", category: "Travel", feed: "Family" },
-    { id: 2, title: "Friends Feed Content", category: "Hobbies", feed: "Friends" },
-    { id: 3, title: "Work Feed Content", category: "Education", feed: "Work" },
-    { id: 4, title: "Another Family Content", category: "Travel", feed: "Family" },
-];
-
-const feedOptions = ["Family", "Friends", "Work"];
-const categoryOptions = ["Travel", "Hobbies", "Education", "Health & Fitness","Media",
-    "Current Events",
-    "Events",
-    "Education",];
-
-export const Mainpage = () => {
-    const [data, setData] = useState([]); // Holds full data
-    const [filteredData, setFilteredData] = useState([]); // Data based on filters
-    const [selectedFeed, setSelectedFeed] = useState("Default"); // Default feed
-    const [selectedCategory, setSelectedCategory] = useState(""); // No category by default
-
-    useEffect(() => {
-        setData(sampleData);
-        setFilteredData(sampleData);
-    }, []);
-
-    // Handle feed selection
-    const handleFeedClick = (feed) => {
-        const newFeed = feed === selectedFeed ? "Default" : feed;
-        setSelectedFeed(newFeed);
-    };
-
-    // Handle category selection
-    const handleCategoryClick = (category) => {
-        const newCategory = category === selectedCategory ? "" : category;
-        setSelectedCategory(newCategory);
-    };
-
-    // Update filtered data when feed or category changes
-    useEffect(() => {
-        const filtered = data.filter((item) => {
-            const matchesFeed = selectedFeed === "Default" || item.feed === selectedFeed;
-            const matchesCategory = !selectedCategory || item.category === selectedCategory;
-            return matchesFeed && matchesCategory;
-        });
-        setFilteredData(filtered);
-    }, [selectedFeed, selectedCategory, data]);
-
-    const Standinnavbar = styled.div`
+//import { fecthcatgories } from "../../services/apiFacade";
+const Standinnavbar = styled.div`
         background-color: var(--blue);
         color: black;
         text-align: center;
@@ -123,6 +78,70 @@ export const Mainpage = () => {
         border-radius: 10px;
         margin: 20px 0;
     `;
+const sampleData = [
+    { id: 1, title: "Family Feed Content", category: "Travel", feed: "Family" },
+    { id: 2, title: "Friends Feed Content", category: "Hobbies", feed: "Friends" },
+    { id: 3, title: "Work Feed Content", category: "Education", feed: "Work" },
+    { id: 4, title: "Another Family Content", category: "Travel", feed: "Family" },
+];
+
+const feedOptions = ["Family", "Friends", "Work"];
+const categoryOptions = ["Travel", "Hobbies", "Education", "Health & Fitness","Media",
+    "Current Events",
+    "Events",
+    "Education",];
+
+export const Mainpage = () => {
+    const [data, setData] = useState([]); // Holds full data
+    const [filteredData, setFilteredData] = useState([]); // Data based on filters
+    const [selectedFeed, setSelectedFeed] = useState("Default"); // Default feed
+    const [selectedCategory, setSelectedCategory] = useState(""); // No category by default
+
+    useEffect(() => {
+        setData(sampleData);
+        setFilteredData(sampleData);
+    }, []);
+    // useEffect(() => {
+    //     // Fetch categories data when the component mounts
+    //     const fetchData = async () => {
+    //         try {
+    //             const fetchedData = await fecthcatgories();
+    //             setData(fetchedData); // Set data to the fetched categories
+    //             setFilteredData(fetchedData); // Optionally, set filtered data to the fetched categories
+    //         } catch (error) {
+    //             console.error("Error fetching data:", error);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, []);
+
+
+
+    // Handle feed selection
+    const handleFeedClick = (feed) => {
+        const newFeed = feed === selectedFeed ? "Default" : feed;
+        setSelectedFeed(newFeed);
+    };
+
+    // Handle category selection
+    const handleCategoryClick = (category) => {
+        const newCategory = category === selectedCategory ? "" : category;
+        setSelectedCategory(newCategory);
+    };
+
+    // Update filtered data when feed or category changes
+    useEffect(() => {
+        const filtered = data.filter((item) => {
+            const matchesFeed = selectedFeed === "Default" || item.feed === selectedFeed;
+            const matchesCategory = !selectedCategory || item.category === selectedCategory;
+            return matchesFeed && matchesCategory;
+        });
+        setFilteredData(filtered);
+    }, [selectedFeed, selectedCategory, data]);
+
+    
+
 
     return (
         <>

@@ -150,6 +150,22 @@ export const sendMessage = async (message, retries = 3) => {
         }
     }
 };
+export const fecthcatgories = async () => {
+    try {
+        const result = await fetch(`${BASE_URL_DEV}/categories`);
+        
+        if (!result.ok) {
+            throw new Error(`Fetch recipes failed with status: ${result.status}`);
+        }
+
+        const data = await result.json();
+        console.log(data);
+        return data;
+    } catch (e) {
+        console.log(e);
+        throw e; 
+    }
+}
 
 //ask for connnection 
 //Not finished and needs a revision.
