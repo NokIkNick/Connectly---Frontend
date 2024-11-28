@@ -6,30 +6,6 @@ import Category from "../components/Category";
 import Modal from "../components/Modal";
 import NewPostForm from "../components/NewPostForm";
 
-// Removed the duplicate Standinnavbar declaration at the top
-
-export const Mainpage = () => {
-    const [showModal, setShowModal] = useState(false);
-
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
-    const Standinnavbar = styled.div`
-        background-color: var(--blue);
-        color: black;
-        text-align: center;
-        padding: 20px;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1;
-    `;
-
     const Container = styled.div`
         display: flex;
         justify-content: space-between;
@@ -101,6 +77,55 @@ export const Mainpage = () => {
         margin: 20px 0;
     `;
 
+    const InputBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    `;
+        
+    const ProfilePicture = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 20px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    `;
+    
+    const TextArea = styled.input`
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    background-color: var(--background);
+    border: none;
+    &:hover {
+        background-color: var(--light-grey);
+    }
+    `;
+
+export const Mainpage = ({loggedInUser}) => {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    
+
     // Sample data for the application
     const sampleData = [
         { id: 1, title: "Family Feed Content", category: "Travel", feed: "Family" },
@@ -170,51 +195,10 @@ export const Mainpage = () => {
         setFilteredData(filtered);
     }, [selectedFeed, selectedCategory, data]);
 
-    const InputBox = styled.div`
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        background-color: var(--white);
-        border-radius: 10px;
-        padding: 10px;
-        box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-    `;
-
-    const ProfilePicture = styled.div`
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin: 20px;
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-    `;
-
-    const TextArea = styled.input`
-        width: 100%;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 50px;
-        font-size: 1.2rem;
-        background-color: var(--background);
-        border: none;
-        &:hover {
-            background-color: var(--light-grey);
-        }
-    `;
-
-    // comments from anders
-    // default FACButton should be 'active' when page is loaded and loaded with that 'feed'
-    const userName = "John Doe"; // Replace with dynamic user name if available
+  
 
     return (
         <>
-            <Standinnavbar>
-                <h1>this is a stand-in for a navbar</h1>
-            </Standinnavbar>
             <Container>
                 <FeedAndCategories>
                     <h2>FEED </h2>
@@ -246,8 +230,8 @@ export const Mainpage = () => {
                         </ProfilePicture>
                         <TextArea
                             type="text"
-                            placeholder={`What's on your mind, ${userName}?`}
-                            onFocus={handleOpenModal}
+                            placeholder={`What's on your mind, ${loggedInUser.fullName}?`}
+                            onClick={handleOpenModal}
                         />
                     </InputBox>
 
