@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "@cypress/react": "^8.0.2",
+    "@cypress/webpack-dev-server": "^3.11.0",
+    "cypress": "^13.16.0",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "cypress:open": "cypress open"
+  }
+}

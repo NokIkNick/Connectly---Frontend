@@ -17,3 +17,26 @@ export const fetchFeedData = async(catagory) =>{
     }
 }
 
+export const fetchNotifications = async () => {
+    try {
+        const response = await fetch('/notifications.json');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+        throw error;
+    }
+};
+
+export const fetchPostsByCategory = async (category) => {
+    try {
+        const response = await fetch(`/api/posts?category=${category}`, {
+            method: 'POST',
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching posts by category:', error);
+        throw error;
+    }
+};
