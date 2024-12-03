@@ -1,47 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "../components/Modal";
-// Stand-in data. Replace with actual data.
-const samplePeople = [
-    {
-        firstname: "John",
-        lastname: "Doe",
-        email: "john.doe@example.com"
-    },
-    {
-        firstname: "Jane",
-        lastname: "Smith",
-        email: "jane.smith@example.com"
-    },
-    {
-        firstname: "Alice",
-        lastname: "Johnson",
-        email: "alice.johnson@example.com"
-    },
-    {
-        firstname: "Bob",
-        lastname: "Brown",
-        email: "bob.brown@example.com"
-    },
-    {
-        firstname: "Charlie",
-        lastname: "Davis",
-        email: "charlie.davis@example.com"
-    }
-];  
+import { getProfile } from "../services/apiFacade";
 
 // Styled components
-const Standinnavbar = styled.div`
-background-color: var(--blue);
-color: black;
-text-align: center;
-padding: 20px;
-position: fixed;
-width: 100%;
-top: 0;
-z-index: 1;
-`;
-
 const Container = styled.div`
 display: flex;
 justify-content: space-between;
@@ -222,18 +184,11 @@ const PrevNext = styled.button`
     background-color: var(--blue-hover);
 }
 `;
+
+const AddConnectionButton = styled(FriendButton)``;
 //uncomment the line above to see the sample data
-export const Searchsite = () => {
+export const Searchsite = ({loggedInUser, search, setSearch, triggerSearch}) => {
     const [showModal, setShowModal] = useState(false);
-
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
     const [profilesPerPage, setProfilesPerPage] = useState(5);
     const [people, setPeople] = useState([]);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -241,13 +196,19 @@ export const Searchsite = () => {
     const [activeButton, setActiveButton] = useState([]);
     const [connectedIds, setConnectedIds] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const AddConnectionButton = styled(FriendButton)``;
+    const [finalizedSearch, setFinalizedSearch] = useState(search);
     const indexOfLastProfile = currentPage * profilesPerPage;
     const indexOfFirstProfile = indexOfLastProfile - profilesPerPage;
     const currentProfiles = people.slice(indexOfFirstProfile, indexOfLastProfile);
     const totalPages = Math.ceil(people.length / profilesPerPage);
     
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
 
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -269,25 +230,22 @@ export const Searchsite = () => {
         };
 
     }, []);
+
     //to fetch already connected profiles
     useEffect(() => {
-        //fetch connected profiles
-        //setConnectedIds(response.data)
-    }, []);
-
-    //for example data
-    useEffect(() => {
-        setPeople(samplePeople);
-    }, []);
+        console.log("Fetching connected profiles for user: ", search);
+        // Fetch search results based on the search query
+        const fetchData = async () => {
+            const data = await getProfile(search);
+            setPeople(data);
+        };
+        fetchData();
+        // Example: fetchPeople(search).then(setPeople);
+    }, [triggerSearch]);
 
     const handleConnectClick = (profile) => {
         setSelectedProfile(profile);
         handleOpenModal();
-    };
-
-    const handleClosePopup = () => {
-        handleCloseModal();
-        setSelectedProfile(null);
     };
 
     const handleButtonClick = (buttonType, event) => {
@@ -313,13 +271,9 @@ export const Searchsite = () => {
 
     return (
         <>
-            <Standinnavbar>
-                <h1>this is a stand-in for a navbar</h1>
-            </Standinnavbar>
-
             <Container>
                 <SearchResults>
-                <h2>Search Results for: </h2>
+                <h2>Search Results for: {finalizedSearch} </h2>
                 {people.length === 0 && <h2>Loading...</h2>}
                     {currentProfiles &&
                         currentProfiles.map((item) => (
@@ -327,13 +281,13 @@ export const Searchsite = () => {
                                 {/* Stand-in. Replace with actual image */}
                                 <Avatar src="user-svgrepo-com.svg" alt="profile image" />
                                 <h3>
-                                    {item.firstname} {item.lastname}
+                                    {item.fullName}
                                 </h3>
                                 <AddButton onClick={() => handleConnectClick(item)}>
                                     {connectedIds.includes(item.email) ? "Connected" : "Connect"}
                                 </AddButton> 
                             </Profiles>
-                        ))}
+                        )) } 
                 
                 <PaginateContainer>
                     <PrevNext onClick={handlePreviousPage} disabled={currentPage === 1}>
