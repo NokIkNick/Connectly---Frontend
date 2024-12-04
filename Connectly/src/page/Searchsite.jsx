@@ -195,6 +195,7 @@ export const Searchsite = ({loggedInUser, search, setSearch, triggerSearch}) => 
     const [selectedProfile, setSelectedProfile] = useState(null);
     const [activeButton, setActiveButton] = useState([]);
     const [connectedIds, setConnectedIds] = useState([]);
+    const [blockedIds,setBlocedIds] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [finalizedSearch, setFinalizedSearch] = useState(search);
     const indexOfLastProfile = currentPage * profilesPerPage;
@@ -248,6 +249,10 @@ export const Searchsite = ({loggedInUser, search, setSearch, triggerSearch}) => 
         handleOpenModal();
     };
 
+    const handleBlockClick = (profile) => {
+        setSelectedProfile(profile);
+    }
+
     const handleButtonClick = (buttonType, event) => {
         event.preventDefault();
         setActiveButton((prevActiveButtons) =>
@@ -285,6 +290,10 @@ export const Searchsite = ({loggedInUser, search, setSearch, triggerSearch}) => 
                                 </h3>
                                 <AddButton onClick={() => handleConnectClick(item)}>
                                     {connectedIds.includes(item.email) ? "Connected" : "Connect"}
+                                </AddButton>
+                                <br></br>
+                                <AddButton onClick={()=> handleBlockClick(item)}>
+                                    {blockedIds.includes(item.email) ?"Blocked":"block"}
                                 </AddButton> 
                             </Profiles>
                         )) } 
@@ -314,6 +323,7 @@ export const Searchsite = ({loggedInUser, search, setSearch, triggerSearch}) => 
             <Modal show={showModal} onClose={handleCloseModal}>
             
                         <h2>Connect</h2>
+                        
                         {selectedProfile && (
                             <>
                                 <Avatar src="user-svgrepo-com.svg" alt="profile image" />
@@ -344,6 +354,7 @@ export const Searchsite = ({loggedInUser, search, setSearch, triggerSearch}) => 
                         <br />
                         <AddConnectionButton>Add to your connections</AddConnectionButton>
             </Modal>
+            
         </>
     );
 };
