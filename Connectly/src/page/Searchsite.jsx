@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Modal from "../components/Modal";
-import { getProfile } from "../services/apiFacade";
+import { getProfile,blockUser } from "../services/apiFacade";
 
 // Styled components
 const Container = styled.div`
@@ -249,9 +249,20 @@ export const Searchsite = ({loggedInUser, search, setSearch, triggerSearch}) => 
         handleOpenModal();
     };
 
-    const handleBlockClick = (profile) => {
-        setSelectedProfile(profile);
-    }
+    const handleBlockClick = async (profile) => {
+        try{
+            setSelectedProfile(profile);
+        const response = await blockUser(profile.email);
+        if(response.success){
+            setBlocedIds(profile.email);
+        }else {
+            console.error('failed to block')
+        }
+        }catch(error){
+            console.error('error cant block user',error.message);
+        }
+        
+    };
 
     const handleButtonClick = (buttonType, event) => {
         event.preventDefault();

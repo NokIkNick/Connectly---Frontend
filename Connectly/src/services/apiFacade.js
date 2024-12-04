@@ -37,6 +37,26 @@ const fetchWithTimeout = (url, options, timeout = 5000) => {
     ]);
 };
 
+//mock implemnation for blocking
+export const blockUser = async(email) => {
+    try{
+        const response = await fetch(`${BASE_URL}/api/block`,{
+            method:'post',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body:JSON.stringify({email}),
+        }
+        );
+        if(!response.ok){
+            throw new Error('couldnt block this guy');
+        }
+        return await response.json();
+    }catch(error){
+        throw new Error('Error blocking user:' + error.message);
+    }
+}
+
 //login function
 export const login = async (credentials, retries = 3) => {
     const url = `${BASE_URL}/auth/login`;
@@ -218,6 +238,8 @@ export const searchProfiles = async (query, retries = 3) => {
         }
     }
 };
+
+
 
 
 // send message
