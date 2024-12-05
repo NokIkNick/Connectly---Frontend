@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Modal from "./Modal";
+import { getAllProfiles } from "../../services/apiFacade";
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -49,24 +50,33 @@ const ProfilePicture = styled.img`
 `;
 
 const NewChatModal = ({ show, onClose, onAddToChat }) => {
-  const [activeCategory, setActiveCategory] = useState("Work");
+  const [activeCategory, setActiveCategory] = useState("WORK");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredContacts, setFilteredContacts] = useState([]);
 
   const contacts = {
-    Work: [
+    WORK: [
       { id: 1, name: "emily" },
       { id: 2, name: "sumaia"},
     ],
-    Friends: [
+    FRIEND: [
       { id: 3, name: "anders"},
       { id: 4, name: "ellie" },
     ],
-    Family: [
+    FAMILY: [
       { id: 5, name: "Sarah" },
       { id: 6, name: "Tommy" },
     ],
   };
+
+  useEffect(() => {
+    if (!show) return;
+    getAllProfiles().then((data) => {
+      setFilteredContacts(data[activeCategory]);
+    }).catch((error) => {
+      console.error("Failed to get profiles: ", error);
+    });
+  }, [show, activeCategory]);
 
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
@@ -97,7 +107,7 @@ const NewChatModal = ({ show, onClose, onAddToChat }) => {
     <Modal show={show} onClose={onClose}>
       <h2>Add to New Chat</h2>
       <ButtonGroup>
-        {["Work", "Friends", "Family"].map((category) => (
+        {["WORK", "FRIEND", "FAMILY"].map((category) => (
           <CategoryButton
             key={category}
             active={activeCategory === category}

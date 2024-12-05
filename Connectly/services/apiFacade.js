@@ -1,4 +1,4 @@
-import {BASE_URL} from "../utils/globalVariables.js"
+import {BASE_URL} from "/src/utils/globalVariables.js"
 
 //Get from api mockup, with retries and timeout. Stolen from Yapp, but with more failsafes and error handling. Needs to be reworked to fit our api.
 //Fetch with timeout, to avoid hanging fetches.
@@ -42,13 +42,26 @@ export const getAllProfiles = async (retries = 3) => {
                 throw new Error("Invalid data format");
             }
 
-            return data;
+            // Sort data based on visibility
+            const sortedData = {
+                WORK: [],
+                FRIEND: [],
+                FAMILY: []
+            };
+
+            data.forEach(profile => {
+                if (sortedData[profile.visibility]) {
+                    sortedData[profile.visibility].push(profile);
+                }
+            });
+
+            return sortedData;
         } catch (error) {
             if (i === retries - 1) {
                 throw new Error(`Failed to get all profiles: ${error.message}`);
             }
         }
-    } 
+    }
 };
 
 
@@ -122,10 +135,80 @@ export const searchProfiles = async (query, retries = 3) => {
     }
 };
 
+//Fetches all chats for a user.
+//Returns an array of chats.
+export const getChats = async (loggedInUser, retries = 3) => {
+    const url = `${BASE_URL}/chat/getChatsByUser/${loggedInUser.email}`;
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetchWithTimeout(url, options);
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            const data = await response.json();
+
+            // Validate data (example: check if it's an array)
+            if (!Array.isArray(data)) {
+                throw new Error("Invalid data format");
+            }
+
+            return data;
+        } catch (error) {
+            if (i === retries - 1) {
+                throw new Error(`Failed to get chats: ${error.message}`);
+            }
+        }
+    }
+};
+
+//Fetches all messages for a chat.
+//Returns an array of messages.
+
+export const getChatMessages = async (chatId, loggedInUser, retries = 3) => {
+    const url = `${BASE_URL}/chat/getMessages/${chatId}`;
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetchWithTimeout(url, options);
+
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+
+            const data = await response.json();
+
+            // Validate data (example: check if it's an array)
+            if (!Array.isArray(data)) {
+                throw new Error("Invalid data format");
+            }
+
+            return data;
+        } catch (error) {
+            if (i === retries - 1) {
+                throw new Error(`Failed to get chat messages: ${error.message}`);
+            }
+        }
+    }
+}
 
 // send message
-export const sendMessage = async (message, retries = 3) => {
-    const url = `${BASE_URL}/private/sendMessage`;
+export const sendMessage = async (idOfRecipient, loggedInUser, message, retries = 3) => {
+    const url = `${BASE_URL}/chat/sendMessage`;
     const options = {
         method: "POST",
         headers: {
@@ -170,15 +253,23 @@ export const fecthcatgories = async () => {
 //ask for connnection 
 //Not finished and needs a revision.
 
-/* export const askForConnection = async (id, retries = 3) => {
-    const url = `${BASE_URL}/private/askForConnection/${id}`;
+ export const askForConnection = async (id, retries = 3) => {
+    const url = `${BASE_URL}/connection/request/new`;
     const options = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        },
+        body: {
+            "connection": {
+                "email": "",
+                "fullName": ""
+            },
+            "connectionTypes": []
+            }
         }
-    };
-
+        
     for (let i = 0; i < retries; i++) {
         try {
             const response = await fetchWithTimeout(url, options);
@@ -194,5 +285,5 @@ export const fecthcatgories = async () => {
             }
         }
     }
-} */
+} 
 

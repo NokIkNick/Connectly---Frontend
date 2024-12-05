@@ -49,7 +49,7 @@ function App() {
 
     setTokenIsValid(true);
     //setLoggedInUser({username: tokenData.username, roles: tokenData.roles, email: tokenData.email});
-    setLoggedInUser({fullName: "defaultUser", roles: "defaultRole", email: "defaultEmail"});
+    setLoggedInUser({fullName: "Anders Jensen", roles: "defaultRole", email: "defaultEmail"});
     console.log("Token is valid");
   }
 
