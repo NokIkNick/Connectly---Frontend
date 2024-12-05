@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { login } from '../services/apiFacade.js';
 
 const Form = styled.form`
   background-color: var(--white);
@@ -87,25 +88,25 @@ const Div = styled.div`
 `;
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Use navigate for routing
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !password) {
+    if (!email || !password) {
       setError('Please fill in both fields.');
     } else {
       setError('');
       //for debuging purposes
       //console.log('Username:', username);
       //console.log('Password:', password);
-      // Perform login action, e.g., API call here
+      login({email, password})
     }
   };
 
-  const handleSignUp = () => {
+  const navigateSignUp = () => {
     // Redirect to the /signup route
     navigate('/signup');
   };
@@ -113,12 +114,12 @@ const Login = () => {
   return (
     <Div>
       <Form onSubmit={handleSubmit}>
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="email">Email</Label>
         <Input
-          id="username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Label htmlFor="password">Password</Label>
         <Input
@@ -131,7 +132,7 @@ const Login = () => {
         <Btn type="submit">Login</Btn>
         <SignUpContainer>
           <SignUpText>Don't have an account?</SignUpText>
-          <SignUpBtn type="button" onClick={handleSignUp}>
+          <SignUpBtn type="button" onClick={navigateSignUp}>
             Sign Up
           </SignUpBtn>
         </SignUpContainer>

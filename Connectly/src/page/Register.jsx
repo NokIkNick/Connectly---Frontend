@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { register } from '../services/apiFacade.js'
 
 // Styled components
 const RegisterForm = styled.form`
@@ -55,15 +56,33 @@ const Input = styled.input`
 `;
 
 const Register = () => {
+  const [credentials, setCredentials] = useState({"email": "", "password": ""});
+
+  const handleRegister = () => {
+    // handle login
+    if(!credentials.email || !credentials.password){
+      throw new Error("Please fill out all fields");
+    } else {
+    console.log('register');
+    register(credentials);
+    }
+  };
+
+  const handleOnChange = (e) => {
+    console.log(e.target.name, e.target.value);
+    setCredentials({...credentials, [e.target.name]: e.target.value});
+} 
+
+
   return (
     <Div>
-      <RegisterForm>
+      <RegisterForm onSubmit={(e) => { e.preventDefault(); handleRegister(); }}>
         <Label>Email</Label>
-        <Input type="email" name="username" placeholder="Enter Username" required />
+        <Input type="email" name="email" placeholder="Enter Email" onChange={handleOnChange} required />
 
         <Label>Password</Label>
-        <Input type="password" name="password" placeholder="Enter password" required />
-        <Button type="submit">Register</Button>
+        <Input type="password" name="password" placeholder="Enter password" onChange={handleOnChange} required />
+        <Button type="submit" >Register</Button>
       </RegisterForm>
     </Div>
   );
