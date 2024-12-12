@@ -5,6 +5,7 @@ import Category from "../components/Category";
 //import { fecthcatgories } from "../../services/apiFacade";
 import Modal from "../components/Modal";
 import NewPostForm from "../components/NewPostForm";
+import SettingsModal from '../components//SettingsModal'; 
 
     const Container = styled.div`
         display: flex;
@@ -233,6 +234,7 @@ export const Mainpage = ({loggedInUser}) => {
                             placeholder={`What's on your mind, ${loggedInUser.fullName}?`}
                             onClick={handleOpenModal}
                         />
+                        <SettingsModal />
                     </InputBox>
 
                     <h2>Search Results</h2>
